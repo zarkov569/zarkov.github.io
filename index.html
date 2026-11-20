@@ -165,6 +165,9 @@
     .video-box { width: 100%; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); background: #000; margin-bottom: 24px; }
     .video-box video, .video-box img { width: 100%; max-height: 300px; display: block; object-fit: cover; }
 
+    .video-fallback { display: block; text-align: center; font-size: 12.5px; color: var(--accent-2); margin: -14px 0 24px; }
+    .video-fallback:hover { text-decoration: underline; }
+
     .desc-box { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 18px; font-size: 14px; color: #cbd5e1; line-height: 1.9; margin-bottom: 20px; }
 
     .tg-channel-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--surface); color: var(--accent-2); padding: 14px; border-radius: 16px; font-size: 14px; font-weight: 700; border: 1px solid var(--line); transition: .2s; }
@@ -350,10 +353,11 @@
       const media = app.videoUrl ? `
         <div class="sec-label">${app.videoLabel || 'Gameplay Preview'}</div>
         <div class="video-box">
-          <video controls playsinline preload="metadata" poster="${app.posterUrl}">
-            <source src="${app.videoUrl}">
+          <video controls playsinline webkit-playsinline preload="auto" poster="${app.posterUrl}">
+            <source src="${app.videoUrl}" type="${app.videoType || (app.videoUrl.endsWith('.mov') ? 'video/quicktime' : 'video/mp4')}">
           </video>
-        </div>` : `
+        </div>
+        <a href="${app.videoUrl}" target="_blank" rel="noopener" class="video-fallback">ئەگەر ڤیدیۆکە کار نەکرد، لێرە بیکەرەوە</a>` : `
         <div class="sec-label">App Preview</div>
         <div class="video-box"><img src="${app.posterUrl}" alt="Preview"></div>`;
 
