@@ -5,83 +5,177 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zarkov.exe Store</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: #05050a; color: #f8fafc; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-    
-    .store-header { text-align: center; margin: 20px 0 25px 0; }
-    .store-header h1 { font-size: 24px; color: #00ffcc; font-weight: 800; letter-spacing: 1px; text-shadow: 0 0 15px rgba(0,255,204,0.3); }
-    .store-header p { font-size: 12px; color: #64748b; margin-top: 5px; text-transform: uppercase; letter-spacing: 2px; }
-    
-    .app-card { background: linear-gradient(145deg, #101420, #090d16); border: 1px solid #1e293b; border-radius: 24px; padding: 22px; width: 100%; max-width: 420px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8); position: relative; overflow: hidden; }
-    .app-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, #00ffcc, transparent); }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #05050a; color: #f8fafc; min-height: 100vh; overflow-x: hidden; }
 
-    .app-top { display: flex; align-items: center; margin-bottom: 20px; }
-    .app-icon-img { width: 85px; height: 85px; border-radius: 20px; object-fit: cover; margin-left: 16px; border: 1px solid #334155; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+    /* سەرێ پەڕەی و گەڕان (Search Bar) */
+    .top-bar { position: sticky; top: 0; z-index: 10; background: rgba(5, 5, 10, 0.85); backdrop-filter: blur(15px); padding: 18px 20px 14px; border-bottom: 1px solid #1a2234; }
+    .store-title { display: flex; justify-content: space-between; align-items: center; max-width: 850px; margin: 0 auto 12px; }
+    .store-title h1 { font-size: 24px; color: #00ffcc; font-weight: 800; letter-spacing: 0.5px; text-shadow: 0 0 15px rgba(0,255,204,0.3); }
+    .tg-mini { font-size: 12px; color: #38bdf8; text-decoration: none; background: #0f172a; padding: 6px 12px; border-radius: 14px; border: 1px solid #1e293b; font-weight: 600; }
     
-    .app-meta h2 { font-size: 20px; color: #ffffff; margin-bottom: 2px; font-weight: 700; }
-    .app-meta .dev-name { font-size: 13px; color: #00ffcc; margin-bottom: 12px; font-weight: 600; }
+    .search-box { max-width: 850px; margin: 0 auto; position: relative; }
+    .search-box input { width: 100%; background: #111625; border: 1px solid #1e293b; border-radius: 12px; padding: 10px 15px; color: #fff; font-size: 14px; outline: none; transition: 0.2s; }
+    .search-box input:focus { border-color: #00ffcc; }
+
+    /* لیستا بچووک یا یارییان (App Store Grid) */
+    .apps-grid { max-width: 850px; margin: 20px auto; padding: 0 20px 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 14px; }
     
-    .btn-get { display: inline-block; background: linear-gradient(135deg, #00ffcc, #00bfff); color: #05050a; padding: 8px 28px; border-radius: 20px; font-weight: 800; font-size: 14px; text-decoration: none; transition: 0.2s; box-shadow: 0 4px 15px rgba(0,255,204,0.3); }
-    .btn-get:active { transform: scale(0.95); }
+    .app-row-card { background: linear-gradient(145deg, #0f131f, #090c14); border: 1px solid #1a2234; border-radius: 18px; padding: 14px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: transform 0.15s, border-color 0.2s; }
+    .app-row-card:active { transform: scale(0.98); }
+    .app-row-card:hover { border-color: #2d3b59; }
+
+    .row-left { display: flex; align-items: center; gap: 14px; overflow: hidden; }
+    .row-icon { width: 64px; height: 64px; border-radius: 15px; object-fit: cover; border: 1px solid #28334a; flex-shrink: 0; }
+    .row-info h3 { font-size: 16px; color: #ffffff; font-weight: 700; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .row-info p { font-size: 12px; color: #64748b; }
+
+    .btn-get-small { background: #162033; color: #00ffcc; border: 1px solid rgba(0,255,204,0.25); padding: 7px 20px; border-radius: 20px; font-weight: 800; font-size: 13px; text-decoration: none; flex-shrink: 0; transition: 0.2s; }
+    .btn-get-small:hover { background: #00ffcc; color: #05050a; }
+
+    /* پەڕەیا ڤەبوونا یاریێ وەک App Store (Detail Modal) */
+    .detail-page { position: fixed; inset: 0; background: #05050a; z-index: 100; overflow-y: auto; transform: translateX(-100%); transition: transform 0.32s cubic-bezier(0.25, 1, 0.5, 1); padding-bottom: 40px; }
+    .detail-page.active { transform: translateX(0); }
+
+    .detail-nav { position: sticky; top: 0; z-index: 20; background: rgba(5, 5, 10, 0.9); backdrop-filter: blur(15px); padding: 15px 20px; border-bottom: 1px solid #1a2234; display: flex; align-items: center; }
+    .back-btn { background: none; border: none; color: #00ffcc; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+
+    .detail-content { max-width: 600px; margin: 0 auto; padding: 22px 20px; }
+    .detail-header { display: flex; align-items: center; gap: 18px; margin-bottom: 22px; }
+    .detail-icon { width: 96px; height: 96px; border-radius: 22px; object-fit: cover; border: 1px solid #334155; box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
+    .detail-title-box h2 { font-size: 22px; color: #fff; font-weight: 800; margin-bottom: 3px; }
+    .detail-title-box .dev { font-size: 14px; color: #00ffcc; font-weight: 600; margin-bottom: 12px; }
     
-    .app-specs { display: flex; justify-content: space-around; border-top: 1px solid #1a2234; border-bottom: 1px solid #1a2234; padding: 14px 0; margin-bottom: 20px; font-size: 11px; color: #64748b; text-align: center; text-transform: uppercase; }
-    .spec-box span { display: block; color: #e2e8f0; font-weight: 700; font-size: 13px; margin-top: 3px; }
+    .btn-get-large { display: inline-block; background: linear-gradient(135deg, #00ffcc, #00bfff); color: #05050a; padding: 9px 32px; border-radius: 22px; font-weight: 800; font-size: 14px; text-decoration: none; box-shadow: 0 4px 15px rgba(0,255,204,0.3); }
+
+    .specs-bar { display: flex; justify-content: space-around; border-top: 1px solid #1a2234; border-bottom: 1px solid #1a2234; padding: 14px 0; margin-bottom: 22px; text-align: center; }
+    .spec-item { font-size: 11px; color: #64748b; text-transform: uppercase; }
+    .spec-item span { display: block; color: #f1f5f9; font-size: 14px; font-weight: 700; margin-top: 4px; }
+
+    .sec-label { font-size: 15px; font-weight: 700; color: #e2e8f0; margin-bottom: 12px; }
+    .video-box { width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid #1e293b; background: #000; margin-bottom: 22px; }
+    .video-box video { width: 100%; max-height: 280px; display: block; object-fit: cover; }
+
+    .desc-box { background: #0b0f19; border: 1px solid #1a2234; border-radius: 16px; padding: 16px; font-size: 14px; color: #cbd5e1; line-height: 1.7; margin-bottom: 20px; }
     
-    .section-title { font-size: 14px; font-weight: 700; color: #94a3b8; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-    
-    .video-container { width: 100%; border-radius: 14px; overflow: hidden; border: 1px solid #1e293b; margin-bottom: 20px; background: #000; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
-    .video-container video { width: 100%; height: auto; display: block; max-height: 240px; object-fit: cover; }
-    
-    .app-desc { font-size: 13.5px; color: #94a3b8; line-height: 1.7; background: #070a12; padding: 16px; border-radius: 14px; border: 1px solid #1a2234; margin-bottom: 15px; }
-    
-    .telegram-btn { display: block; text-align: center; background: #1e293b; color: #38bdf8; padding: 10px; border-radius: 12px; font-size: 13px; font-weight: bold; text-decoration: none; border: 1px solid #334155; transition: 0.2s; }
-    .telegram-btn:hover { background: #334155; color: #fff; }
-    
-    .footer { margin-top: 35px; font-size: 11px; color: #475569; text-align: center; letter-spacing: 1px; }
+    .tg-channel-btn { display: block; text-align: center; background: #111827; color: #38bdf8; padding: 13px; border-radius: 14px; font-size: 14px; font-weight: 700; text-decoration: none; border: 1px solid #1f2937; }
+    .tg-channel-btn:hover { background: #1e293b; }
   </style>
 </head>
 <body>
 
-  <div class="store-header">
-    <h1>Zarkov.exe Store</h1>
-    <p>Secure iOS / iPadOS Distribution</p>
+  <!-- پەڕەیا سەرەکی (لیستا یارییان) -->
+  <div class="top-bar">
+    <div class="store-title">
+      <h1>Zarkov.exe Store</h1>
+      <a href="https://t.me/zarkov_exe3" target="_blank" class="tg-mini">@zarkov_exe3</a>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="ل ناڤێ یارییەکێ بگەڕە..." onkeyup="filterApps()">
+    </div>
   </div>
 
-  <div class="app-card">
-    <div class="app-top">
-      <img src="https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?w=200&auto=format&fit=crop&q=80" alt="8 Ball Pool" class="app-icon-img">
-      <div class="app-meta">
-        <h2>8 Ball Pool</h2>
-        <div class="dev-name">Zarkov.exe</div>
-        <a href="https://github.com/zarkov569/zarkov.github.io/releases/download/v1.0/8.ball.pool.ipa" class="btn-get">GET</a>
-      </div>
-    </div>
+  <div class="apps-grid" id="appsGrid"></div>
 
-    <div class="app-specs">
-      <div class="spec-box">Size <span>91.1 MB</span></div>
-      <div class="spec-box">Version <span>v1.0</span></div>
-      <div class="spec-box">Platform <span>iOS / iPad</span></div>
+  <!-- پەڕەیا هویرکارییان (کاتێک کلیک ل سەر یارییەکێ دکەی ڤەدبیت) -->
+  <div class="detail-page" id="detailPage">
+    <div class="detail-nav">
+      <button class="back-btn" onclick="closeDetail()">&#8594; زڤڕین (Store)</button>
     </div>
-
-    <div class="section-title">Gameplay Preview</div>
-    <div class="video-container">
-      <video controls playsinline poster="https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?w=400&auto=format&fit=crop&q=80">
-        <source src="https://github.com/zarkov569/zarkov.github.io/releases/download/video/ScreenRecording_11-10-2026.02-38-01_1.mov" type="video/mp4">
-        تەکنۆلۆژیای ڤیدیۆیێ ل سەر مۆبایلا شما کار ناکەت.
-      </video>
-    </div>
-
-    <div class="section-title">What's New</div>
-    <div class="app-desc">
-      نووترین وەشانا یاریا 8 Ball Pool ب ڕەنگەکێ تاریک و سایبەرپانک ل سەر ستۆرێ Zarkov.exe ب دەستکاریا تایبەت و بێ کێشە کار دکەت. ب ئێک کلیک دابەزێنە و چێژێ وەرگرە.
-    </div>
-
-    <a href="https://t.me/zarkov_exe3" target="_blank" class="telegram-btn">📱 سەردانا کەناڵێ تلێگرامێ مە: @zarkov_exe3</a>
+    <div class="detail-content" id="detailContent"></div>
   </div>
 
-  <div class="footer">
-    &copy; 2026 Zarkov.exe. All rights reserved.
-  </div>
+  <script>
+    // ل ڤێرە دشێی هەر یارییەکا نوو زێدە بکەی د داهاتوودا
+    const appsData = [
+      {
+        id: "8ball",
+        name: "8 Ball Pool",
+        subtitle: "Online Multiplayer Pool • Mod",
+        dev: "Zarkov.exe",
+        icon: "https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?w=200&auto=format&fit=crop&q=80",
+        size: "91.1 MB",
+        version: "v1.0",
+        platform: "iOS / iPad",
+        downloadUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/v1.0/8.ball.pool.ipa",
+        videoUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/video/ScreenRecording_11-10-2026.02-38-01_1.mov",
+        posterUrl: "https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?w=400&auto=format&fit=crop&q=80",
+        description: "نووترین وەشانا یاریا 8 Ball Pool ب ڕەنگەکێ تاریک و سایبەرپانک ل سەر ستۆرێ Zarkov.exe ب دەستکاریا تایبەت و بێ کێشە کار دکەت. ب ئێک کلیک دابەزێنە و چێژێ وەرگرە."
+      }
+      // بۆ زێدەکرنا یاریا دووەم، تەنیا کۆما سەری کۆپی بکە و ل ڤێرە دانە!
+    ];
 
+    const grid = document.getElementById('appsGrid');
+
+    function renderApps(list) {
+      grid.innerHTML = '';
+      list.forEach(app => {
+        const card = document.createElement('div');
+        card.className = 'app-row-card';
+        card.onclick = () => openDetail(app.id);
+        card.innerHTML = `
+          <div class="row-left">
+            <img src="${app.icon}" alt="${app.name}" class="row-icon">
+            <div class="row-info">
+              <h3>${app.name}</h3>
+              <p>${app.subtitle}</p>
+            </div>
+          </div>
+          <a href="${app.downloadUrl}" class="btn-get-small" onclick="event.stopPropagation()">GET</a>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openDetail(id) {
+      const app = appsData.find(a => a.id === id);
+      if (!app) return;
+
+      document.getElementById('detailContent').innerHTML = `
+        <div class="detail-header">
+          <img src="${app.icon}" alt="${app.name}" class="detail-icon">
+          <div class="detail-title-box">
+            <h2>${app.name}</h2>
+            <div class="dev">${app.dev}</div>
+            <a href="${app.downloadUrl}" class="btn-get-large">GET</a>
+          </div>
+        </div>
+
+        <div class="specs-bar">
+          <div class="spec-item">Size <span>${app.size}</span></div>
+          <div class="spec-item">Version <span>${app.version}</span></div>
+          <div class="spec-item">Platform <span>${app.platform}</span></div>
+        </div>
+
+        <div class="sec-label">Gameplay Preview</div>
+        <div class="video-box">
+          <video controls playsinline poster="${app.posterUrl}">
+            <source src="${app.videoUrl}" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="sec-label">What's New</div>
+        <div class="desc-box">${app.description}</div>
+
+        <a href="https://t.me/zarkov_exe3" target="_blank" class="tg-channel-btn">📱 کەناڵێ مە یێ تێلیگرامی: @zarkov_exe3</a>
+      `;
+
+      document.getElementById('detailPage').classList.add('active');
+    }
+
+    function closeDetail() {
+      const vid = document.querySelector('#detailContent video');
+      if (vid) vid.pause();
+      document.getElementById('detailPage').classList.remove('active');
+    }
+
+    function filterApps() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = appsData.filter(app => app.name.toLowerCase().includes(q) || app.subtitle.toLowerCase().includes(q));
+      renderApps(filtered);
+    }
+
+    renderApps(appsData);
+  </script>
 </body>
 </html>
