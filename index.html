@@ -3,43 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zarkov Store</title>
+  <title>Zarkov.exe Store</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: #0b0f19; color: #ffffff; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+    body { background-color: #05050a; color: #f8fafc; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
     
-    .store-header { text-align: center; margin-bottom: 25px; }
-    .store-header h1 { font-size: 22px; color: #38bdf8; font-weight: 700; letter-spacing: 0.5px; }
+    .store-header { text-align: center; margin: 20px 0 25px 0; }
+    .store-header h1 { font-size: 24px; color: #00ffcc; font-weight: 800; letter-spacing: 1px; text-shadow: 0 0 15px rgba(0,255,204,0.3); }
+    .store-header p { font-size: 12px; color: #64748b; margin-top: 5px; text-transform: uppercase; letter-spacing: 2px; }
     
-    .app-card { background-color: #111827; border: 1px solid #1f2937; border-radius: 22px; padding: 20px; width: 100%; max-width: 420px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); }
-    
+    .app-card { background: linear-gradient(145deg, #101420, #090d16); border: 1px solid #1e293b; border-radius: 24px; padding: 22px; width: 100%; max-width: 420px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8); position: relative; overflow: hidden; }
+    .app-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, #00ffcc, transparent); }
+
     .app-top { display: flex; align-items: center; margin-bottom: 20px; }
-    .app-icon-img { width: 82px; height: 82px; border-radius: 18px; object-fit: cover; margin-left: 15px; border: 1px solid #374151; }
+    .app-icon-img { width: 85px; height: 85px; border-radius: 20px; object-fit: cover; margin-left: 16px; border: 1px solid #334155; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
     
-    .app-meta h2 { font-size: 19px; color: #f3f4f6; margin-bottom: 3px; }
-    .app-meta .dev-name { font-size: 13px; color: #38bdf8; margin-bottom: 10px; font-weight: 500; }
+    .app-meta h2 { font-size: 20px; color: #ffffff; margin-bottom: 2px; font-weight: 700; }
+    .app-meta .dev-name { font-size: 13px; color: #00ffcc; margin-bottom: 12px; font-weight: 600; }
     
-    .btn-get { display: inline-block; background-color: #2563eb; color: white; padding: 8px 26px; border-radius: 20px; font-weight: bold; font-size: 14px; text-decoration: none; transition: 0.2s; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4); }
-    .btn-get:active { transform: scale(0.96); }
+    .btn-get { display: inline-block; background: linear-gradient(135deg, #00ffcc, #00bfff); color: #05050a; padding: 8px 28px; border-radius: 20px; font-weight: 800; font-size: 14px; text-decoration: none; transition: 0.2s; box-shadow: 0 4px 15px rgba(0,255,204,0.3); }
+    .btn-get:active { transform: scale(0.95); }
     
-    .app-specs { display: flex; justify-content: space-around; border-top: 1px solid #1f2937; border-bottom: 1px solid #1f2937; padding: 12px 0; margin-bottom: 18px; font-size: 12px; color: #9ca3af; text-align: center; }
-    .spec-box span { display: block; color: #f3f4f6; font-weight: bold; font-size: 13px; margin-top: 3px; }
+    .app-specs { display: flex; justify-content: space-around; border-top: 1px solid #1a2234; border-bottom: 1px solid #1a2234; padding: 14px 0; margin-bottom: 20px; font-size: 11px; color: #64748b; text-align: center; text-transform: uppercase; }
+    .spec-box span { display: block; color: #e2e8f0; font-weight: 700; font-size: 13px; margin-top: 3px; }
     
-    .section-title { font-size: 15px; font-weight: bold; color: #e5e7eb; margin-bottom: 10px; }
+    .section-title { font-size: 14px; font-weight: 700; color: #94a3b8; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
     
-    /* پشکا وێنەیێن یاریێ وەکی App Store */
-    .screenshots { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 18px; scrollbar-width: none; }
-    .screenshots::-webkit-scrollbar { display: none; }
-    .screenshots img { width: 220px; height: 130px; border-radius: 12px; object-fit: cover; border: 1px solid #374151; flex-shrink: 0; }
+    .video-container { width: 100%; border-radius: 14px; overflow: hidden; border: 1px solid #1e293b; margin-bottom: 20px; background: #000; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+    .video-container video { width: 100%; height: auto; display: block; max-height: 240px; object-fit: cover; }
     
-    .app-desc { font-size: 13.5px; color: #cbd5e1; line-height: 1.65; background: #0f172a; padding: 14px; border-radius: 12px; border: 1px solid #1e293b; }
-    .footer { margin-top: 30px; font-size: 11px; color: #4b5563; text-align: center; }
+    .app-desc { font-size: 13.5px; color: #94a3b8; line-height: 1.7; background: #070a12; padding: 16px; border-radius: 14px; border: 1px solid #1a2234; margin-bottom: 15px; }
+    
+    .telegram-btn { display: block; text-align: center; background: #1e293b; color: #38bdf8; padding: 10px; border-radius: 12px; font-size: 13px; font-weight: bold; text-decoration: none; border: 1px solid #334155; transition: 0.2s; }
+    .telegram-btn:hover { background: #334155; color: #fff; }
+    
+    .footer { margin-top: 35px; font-size: 11px; color: #475569; text-align: center; letter-spacing: 1px; }
   </style>
 </head>
 <body>
 
   <div class="store-header">
-    <h1>Zarkov.exe Store 🎮</h1>
+    <h1>Zarkov.exe Store</h1>
+    <p>Secure iOS / iPadOS Distribution</p>
   </div>
 
   <div class="app-card">
@@ -48,30 +53,34 @@
       <div class="app-meta">
         <h2>8 Ball Pool</h2>
         <div class="dev-name">Zarkov.exe</div>
-        <a href="https://github.com/zarkov569/zarkov.github.io/releases/download/v1.0/8.ball.pool.ipa" class="btn-get">دابەزاندن (Get)</a>
+        <a href="https://github.com/zarkov569/zarkov.github.io/releases/download/v1.0/8.ball.pool.ipa" class="btn-get">GET</a>
       </div>
     </div>
 
     <div class="app-specs">
-      <div class="spec-box">قەبارە <span>91.1 MB</span></div>
-      <div class="spec-box">وەشان <span>v1.0</span></div>
-      <div class="spec-box">سیستەم <span>iOS / iPad</span></div>
+      <div class="spec-box">Size <span>91.1 MB</span></div>
+      <div class="spec-box">Version <span>v1.0</span></div>
+      <div class="spec-box">Platform <span>iOS / iPad</span></div>
     </div>
 
-    <div class="section-title">دیمەنێن ژ یاریێ (Preview)</div>
-    <div class="screenshots">
-      <img src="https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?w=400&auto=format&fit=crop&q=80" alt="Preview 1">
-      <img src="https://images.unsplash.com/photo-1553481187-be93c21490a9?w=400&auto=format&fit=crop&q=80" alt="Preview 2">
+    <div class="section-title">Gameplay Preview</div>
+    <div class="video-container">
+      <video controls playsinline poster="https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?w=400&auto=format&fit=crop&q=80">
+        <source src="https://github.com/zarkov569/zarkov.github.io/releases/download/video/ScreenRecording_11-10-2026.02-38-01_1.mov" type="video/mp4">
+        تەکنۆلۆژیای ڤیدیۆیێ ل سەر مۆبایلا شما کار ناکەت.
+      </video>
     </div>
 
-    <div class="section-title">دەربارەی یاریێ (Description)</div>
+    <div class="section-title">What's New</div>
     <div class="app-desc">
-      نووترین وەشانا یاریا 8 Ball Pool ب تایبەتمەندیێن نوو و بێ کێشە ل سەر ستۆرێ زارکۆ. پشتەڤانیا هەمی ئایفۆن و ئایپادان دکەت. ب ئێک کلیک دابەزێنە و چێژێ ژێ وەرگرە.
+      نووترین وەشانا یاریا 8 Ball Pool ب ڕەنگەکێ تاریک و سایبەرپانک ل سەر ستۆرێ Zarkov.exe ب دەستکاریا تایبەت و بێ کێشە کار دکەت. ب ئێک کلیک دابەزێنە و چێژێ وەرگرە.
     </div>
+
+    <a href="https://t.me/zarkov_exe3" target="_blank" class="telegram-btn">📱 سەردانا کەناڵێ تلێگرامێ مە: @zarkov_exe3</a>
   </div>
 
   <div class="footer">
-    &copy; 2026 Zarkov.exe Store
+    &copy; 2026 Zarkov.exe. All rights reserved.
   </div>
 
 </body>
