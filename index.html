@@ -13,20 +13,29 @@
     .store-title h1 { font-size: 24px; color: #00ffcc; font-weight: 800; letter-spacing: 0.5px; text-shadow: 0 0 15px rgba(0,255,204,0.3); }
     .tg-mini { font-size: 12px; color: #38bdf8; text-decoration: none; background: #0f172a; padding: 6px 12px; border-radius: 14px; border: 1px solid #1e293b; font-weight: 600; }
     
-    .search-box { max-width: 850px; margin: 0 auto; position: relative; }
+    .search-box { max-width: 850px; margin: 0 auto 12px; position: relative; }
     .search-box input { width: 100%; background: #111625; border: 1px solid #1e293b; border-radius: 12px; padding: 10px 15px; color: #fff; font-size: 14px; outline: none; transition: 0.2s; }
     .search-box input:focus { border-color: #00ffcc; }
 
+    /* Categories Bar */
+    .categories { max-width: 850px; margin: 0 auto; display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+    .categories::-webkit-scrollbar { display: none; }
+    .cat-btn { background: #111827; border: 1px solid #1f2937; color: #94a3b8; padding: 6px 16px; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.2s; }
+    .cat-btn.active, .cat-btn:hover { background: #00ffcc; color: #05050a; border-color: #00ffcc; }
+
     .apps-grid { max-width: 850px; margin: 20px auto; padding: 0 20px 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 14px; }
     
-    .app-row-card { background: linear-gradient(145deg, #0f131f, #090c14); border: 1px solid #1a2234; border-radius: 18px; padding: 14px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: transform 0.15s, border-color 0.2s; }
+    .app-row-card { background: linear-gradient(145deg, #0f131f, #090c14); border: 1px solid #1a2234; border-radius: 18px; padding: 14px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: transform 0.15s, border-color 0.2s; position: relative; overflow: hidden; }
     .app-row-card:active { transform: scale(0.98); }
     .app-row-card:hover { border-color: #2d3b59; }
 
     .row-left { display: flex; align-items: center; gap: 14px; overflow: hidden; }
     .row-icon { width: 64px; height: 64px; border-radius: 15px; object-fit: cover; border: 1px solid #28334a; flex-shrink: 0; }
-    .row-info h3 { font-size: 16px; color: #ffffff; font-weight: 700; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .row-info h3 { font-size: 16px; color: #ffffff; font-weight: 700; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 8px; }
     .row-info p { font-size: 12px; color: #64748b; }
+
+    /* New Badge */
+    .badge-new { background: rgba(0,255,204,0.15); color: #00ffcc; font-size: 10px; padding: 2px 6px; border-radius: 6px; font-weight: 800; border: 1px solid rgba(0,255,204,0.3); }
 
     .btn-get-small { background: #162033; color: #00ffcc; border: 1px solid rgba(0,255,204,0.25); padding: 7px 20px; border-radius: 20px; font-weight: 800; font-size: 13px; text-decoration: none; flex-shrink: 0; transition: 0.2s; }
     .btn-get-small:hover { background: #00ffcc; color: #05050a; }
@@ -48,7 +57,7 @@
     .detail-content { max-width: 600px; margin: 0 auto; padding: 22px 20px; }
     .detail-header { display: flex; align-items: center; gap: 18px; margin-bottom: 22px; }
     .detail-icon { width: 96px; height: 96px; border-radius: 22px; object-fit: cover; border: 1px solid #334155; box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
-    .detail-title-box h2 { font-size: 22px; color: #fff; font-weight: 800; margin-bottom: 3px; }
+    .detail-title-box h2 { font-size: 22px; color: #fff; font-weight: 800; margin-bottom: 3px; display: flex; align-items: center; gap: 10px; }
     .detail-title-box .dev { font-size: 14px; color: #00ffcc; font-weight: 600; margin-bottom: 12px; }
     
     .btn-get-large { display: inline-block; background: linear-gradient(135deg, #00ffcc, #00bfff); color: #05050a; padding: 9px 32px; border-radius: 22px; font-weight: 800; font-size: 14px; text-decoration: none; box-shadow: 0 4px 15px rgba(0,255,204,0.3); }
@@ -77,6 +86,12 @@
     <div class="search-box">
       <input type="text" id="searchInput" placeholder="ل ناڤێ یارییەکێ بگەڕە..." onkeyup="filterApps()">
     </div>
+    <!-- Categories Filter -->
+    <div class="categories">
+      <button class="cat-btn active" onclick="filterCategory('all', this)">هەمی (All)</button>
+      <button class="cat-btn" onclick="filterCategory('game', this)">یاری (Games)</button>
+      <button class="cat-btn" onclick="filterCategory('tweak', this)">بەرنامە/مۆد (Tweaks)</button>
+    </div>
   </div>
 
   <div class="apps-grid" id="appsGrid"></div>
@@ -104,6 +119,8 @@
       {
         id: "8ball",
         name: "8 Ball Pool",
+        category: "game",
+        isNew: true,
         subtitle: "Online Multiplayer Pool • Mod",
         dev: "Zarkov.exe",
         icon: "https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?w=200&auto=format&fit=crop&q=80",
@@ -118,6 +135,8 @@
       {
         id: "minecraft",
         name: "Minecraft",
+        category: "game",
+        isNew: true,
         subtitle: "Classic Sandbox Survival • Full",
         dev: "Zarkov.exe",
         icon: "https://github.com/zarkov569/zarkov.github.io/releases/download/photo/IMG_5802.jpeg",
@@ -131,10 +150,15 @@
       }
     ];
 
+    let currentCategory = 'all';
     const grid = document.getElementById('appsGrid');
 
     function renderApps(list) {
       grid.innerHTML = '';
+      if(list.length === 0) {
+        grid.innerHTML = '<div style="color: #64748b; text-align: center; grid-column: 1/-1; padding: 20px;">چ ئەپەک نەهاتە دیتن...</div>';
+        return;
+      }
       list.forEach(app => {
         const card = document.createElement('div');
         card.className = 'app-row-card';
@@ -143,7 +167,7 @@
           <div class="row-left">
             <img src="${app.icon}" alt="${app.name}" class="row-icon">
             <div class="row-info">
-              <h3>${app.name}</h3>
+              <h3>${app.name} ${app.isNew ? '<span class="badge-new">NEW</span>' : ''}</h3>
               <p>${app.subtitle}</p>
             </div>
           </div>
@@ -151,6 +175,23 @@
         `;
         grid.appendChild(card);
       });
+    }
+
+    function filterCategory(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterApps();
+    }
+
+    function filterApps() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = appsData.filter(app => {
+        const matchesCat = currentCategory === 'all' || app.category === currentCategory;
+        const matchesSearch = app.name.toLowerCase().includes(q) || app.subtitle.toLowerCase().includes(q);
+        return matchesCat && matchesSearch;
+      });
+      renderApps(filtered);
     }
 
     function openDetail(id) {
@@ -175,7 +216,7 @@
         <div class="detail-header">
           <img src="${app.icon}" alt="${app.name}" class="detail-icon">
           <div class="detail-title-box">
-            <h2>${app.name}</h2>
+            <h2>${app.name} ${app.isNew ? '<span class="badge-new">NEW</span>' : ''}</h2>
             <div class="dev">${app.dev}</div>
             <a href="${app.downloadUrl}" class="btn-get-large">GET</a>
           </div>
@@ -202,12 +243,6 @@
       const vid = document.querySelector('#detailContent video');
       if (vid) vid.pause();
       document.getElementById('detailPage').classList.remove('active');
-    }
-
-    function filterApps() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = appsData.filter(app => app.name.toLowerCase().includes(q) || app.subtitle.toLowerCase().includes(q));
-      renderApps(filtered);
     }
 
     renderApps(appsData);
