@@ -1,22 +1,78 @@
 <!DOCTYPE html>
-<html dir="rtl">
+<html dir="rtl" lang="ku">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>یاریێن من</title>
+  <title>Zarkov Store</title>
   <style>
-    body { background-color: #0d1117; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
-    .card { background-color: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; margin: 15px auto; max-width: 400px; }
-    .btn { display: inline-block; background-color: #238636; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-top: 10px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: #0b0f19; color: #ffffff; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+    
+    .store-header { text-align: center; margin-bottom: 25px; }
+    .store-header h1 { font-size: 22px; color: #38bdf8; font-weight: 700; letter-spacing: 0.5px; }
+    
+    .app-card { background-color: #111827; border: 1px solid #1f2937; border-radius: 22px; padding: 20px; width: 100%; max-width: 420px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); }
+    
+    .app-top { display: flex; align-items: center; margin-bottom: 20px; }
+    .app-icon-img { width: 82px; height: 82px; border-radius: 18px; object-fit: cover; margin-left: 15px; border: 1px solid #374151; }
+    
+    .app-meta h2 { font-size: 19px; color: #f3f4f6; margin-bottom: 3px; }
+    .app-meta .dev-name { font-size: 13px; color: #38bdf8; margin-bottom: 10px; font-weight: 500; }
+    
+    .btn-get { display: inline-block; background-color: #2563eb; color: white; padding: 8px 26px; border-radius: 20px; font-weight: bold; font-size: 14px; text-decoration: none; transition: 0.2s; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4); }
+    .btn-get:active { transform: scale(0.96); }
+    
+    .app-specs { display: flex; justify-content: space-around; border-top: 1px solid #1f2937; border-bottom: 1px solid #1f2937; padding: 12px 0; margin-bottom: 18px; font-size: 12px; color: #9ca3af; text-align: center; }
+    .spec-box span { display: block; color: #f3f4f6; font-weight: bold; font-size: 13px; margin-top: 3px; }
+    
+    .section-title { font-size: 15px; font-weight: bold; color: #e5e7eb; margin-bottom: 10px; }
+    
+    /* پشکا وێنەیێن یاریێ وەکی App Store */
+    .screenshots { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 18px; scrollbar-width: none; }
+    .screenshots::-webkit-scrollbar { display: none; }
+    .screenshots img { width: 220px; height: 130px; border-radius: 12px; object-fit: cover; border: 1px solid #374151; flex-shrink: 0; }
+    
+    .app-desc { font-size: 13.5px; color: #cbd5e1; line-height: 1.65; background: #0f172a; padding: 14px; border-radius: 12px; border: 1px solid #1e293b; }
+    .footer { margin-top: 30px; font-size: 11px; color: #4b5563; text-align: center; }
   </style>
 </head>
 <body>
-  <h1>ب خێر بێن بۆ ستۆرێ یاریان</h1>
-  
-  <div class="card">
-    <h2>ناڤێ یاریێ ل ڤێرێ بنڤیسە</h2>
-    <p>وەشان: v1.0</p>
-    <a href="#" class="btn">دابەزاندن (Download)</a>
+
+  <div class="store-header">
+    <h1>Zarkov.exe Store 🎮</h1>
   </div>
+
+  <div class="app-card">
+    <div class="app-top">
+      <img src="https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?w=200&auto=format&fit=crop&q=80" alt="8 Ball Pool" class="app-icon-img">
+      <div class="app-meta">
+        <h2>8 Ball Pool</h2>
+        <div class="dev-name">Zarkov.exe</div>
+        <a href="https://github.com/zarkov569/zarkov.github.io/releases/download/v1.0/8.ball.pool.ipa" class="btn-get">دابەزاندن (Get)</a>
+      </div>
+    </div>
+
+    <div class="app-specs">
+      <div class="spec-box">قەبارە <span>91.1 MB</span></div>
+      <div class="spec-box">وەشان <span>v1.0</span></div>
+      <div class="spec-box">سیستەم <span>iOS / iPad</span></div>
+    </div>
+
+    <div class="section-title">دیمەنێن ژ یاریێ (Preview)</div>
+    <div class="screenshots">
+      <img src="https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?w=400&auto=format&fit=crop&q=80" alt="Preview 1">
+      <img src="https://images.unsplash.com/photo-1553481187-be93c21490a9?w=400&auto=format&fit=crop&q=80" alt="Preview 2">
+    </div>
+
+    <div class="section-title">دەربارەی یاریێ (Description)</div>
+    <div class="app-desc">
+      نووترین وەشانا یاریا 8 Ball Pool ب تایبەتمەندیێن نوو و بێ کێشە ل سەر ستۆرێ زارکۆ. پشتەڤانیا هەمی ئایفۆن و ئایپادان دکەت. ب ئێک کلیک دابەزێنە و چێژێ ژێ وەرگرە.
+    </div>
+  </div>
+
+  <div class="footer">
+    &copy; 2026 Zarkov.exe Store
+  </div>
+
 </body>
 </html>
