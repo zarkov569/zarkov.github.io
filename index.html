@@ -63,4 +63,135 @@
 
   <div class="top-bar">
     <div class="store-title">
-      
+      <h1>Zarkov.exe Store</h1>
+      <a href="https://t.me/zarkov_exe3" target="_blank" class="tg-mini">@zarkov_exe3</a>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="ل ناڤێ یارییەکێ بگەڕە..." onkeyup="filterApps()">
+    </div>
+  </div>
+
+  <div class="apps-grid" id="appsGrid"></div>
+
+  <div class="detail-page" id="detailPage">
+    <div class="detail-nav">
+      <button class="back-btn" onclick="closeDetail()">&#8594; زڤڕین (Store)</button>
+    </div>
+    <div class="detail-content" id="detailContent"></div>
+  </div>
+
+  <script>
+    const appsData = [
+      {
+        id: "8ball",
+        name: "8 Ball Pool",
+        subtitle: "Online Multiplayer Pool • Mod",
+        dev: "Zarkov.exe",
+        icon: "https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?w=200&auto=format&fit=crop&q=80",
+        size: "91.1 MB",
+        version: "v1.0",
+        platform: "iOS / iPad",
+        downloadUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/v1.0/8.ball.pool.ipa",
+        videoUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/video/ScreenRecording_11-10-2026.02-38-01_1.mov",
+        posterUrl: "https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?w=400&auto=format&fit=crop&q=80",
+        description: "نووترین وەشانا یاریا 8 Ball Pool ب ڕەنگەکێ تاریک و سایبەرپانک ل سەر ستۆرێ Zarkov.exe ب دەستکاریا تایبەت و بێ کێشە کار دکەت. ب ئێک کلیک دابەزێنە و چێژێ وەرگرە."
+      },
+      {
+        id: "minecraft",
+        name: "Minecraft",
+        subtitle: "Classic Sandbox Survival • Full",
+        dev: "Zarkov.exe",
+        icon: "https://github.com/zarkov569/zarkov.github.io/releases/download/photo/IMG_5802.jpeg",
+        size: "سەربخوە",
+        version: "v3.0",
+        platform: "iOS / iPad",
+        downloadUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/v3.0/Minecraft.ipa",
+        videoUrl: "",
+        posterUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/photo/IMG_5802.jpeg",
+        description: "یاریا کلاسیک و جیهانی Minecraft ڤێرشنا v3.0 بۆ ئایفۆن و ئایپاد. ب شێوەیەکێ فەرمی و پاقژ ل سەر ستۆرێ Zarkov.exe دابەزێنە و چێژێ ژ ئاڤاکرنا جیهانا خۆ وەرگرە."
+      }
+    ];
+
+    const grid = document.getElementById('appsGrid');
+
+    function renderApps(list) {
+      grid.innerHTML = '';
+      list.forEach(app => {
+        const card = document.createElement('div');
+        card.className = 'app-row-card';
+        card.onclick = () => openDetail(app.id);
+        card.innerHTML = `
+          <div class="row-left">
+            <img src="${app.icon}" alt="${app.name}" class="row-icon">
+            <div class="row-info">
+              <h3>${app.name}</h3>
+              <p>${app.subtitle}</p>
+            </div>
+          </div>
+          <a href="${app.downloadUrl}" class="btn-get-small" onclick="event.stopPropagation()">GET</a>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openDetail(id) {
+      const app = appsData.find(a => a.id === id);
+      if (!app) return;
+
+      let mediaSection = app.videoUrl ? `
+        <div class="sec-label">Gameplay Preview</div>
+        <div class="video-box">
+          <video controls playsinline poster="${app.posterUrl}">
+            <source src="${app.videoUrl}" type="video/mp4">
+          </video>
+        </div>
+      ` : `
+        <div class="sec-label">App Preview</div>
+        <div class="video-box" style="height: 220px; display: flex; align-items: center; justify-content: center; background: #070a12;">
+          <img src="${app.posterUrl}" style="width: 100%; height: 100%; object-fit: cover;" alt="Preview">
+        </div>
+      `;
+
+      document.getElementById('detailContent').innerHTML = `
+        <div class="detail-header">
+          <img src="${app.icon}" alt="${app.name}" class="detail-icon">
+          <div class="detail-title-box">
+            <h2>${app.name}</h2>
+            <div class="dev">${app.dev}</div>
+            <a href="${app.downloadUrl}" class="btn-get-large">GET</a>
+          </div>
+        </div>
+
+        <div class="specs-bar">
+          <div class="spec-item">Size <span>${app.size}</span></div>
+          <div class="spec-item">Version <span>${app.version}</span></div>
+          <div class="spec-item">Platform <span>${app.platform}</span></div>
+        </div>
+
+        ${mediaSection}
+
+        <div class="sec-label">What's New</div>
+        <div class="desc-box">${app.description}</div>
+
+        <a href="https://t.me/zarkov_exe3" target="_blank" class="tg-channel-btn">📱 کەناڵێ مە یێ تێلیگرامی: @zarkov_exe3</a>
+      `;
+
+      document.getElementById('detailPage').classList.add('active');
+    }
+
+    function closeDetail() {
+      const vid = document.querySelector('#detailContent video');
+      if (vid) vid.pause();
+      document.getElementById('detailPage').classList.remove('active');
+    }
+
+    function filterApps() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = appsData.filter(app => app.name.toLowerCase().includes(q) || app.subtitle.toLowerCase().includes(q));
+      renderApps(filtered);
+    }
+
+    renderApps(appsData);
+  </script>
+</body>
+</html>
