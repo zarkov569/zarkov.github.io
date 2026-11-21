@@ -165,6 +165,11 @@
     .video-box { width: 100%; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); background: #000; margin-bottom: 24px; }
     .video-box video, .video-box img { width: 100%; max-height: 300px; display: block; object-fit: cover; }
 
+    .hash-box { display: flex; align-items: center; gap: 12px; direction: ltr; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; margin-bottom: 20px; }
+    .hash-box code { flex: 1; min-width: 0; font: 12px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; color: #9fb3d1; word-break: break-all; }
+    .copy-btn { flex-shrink: 0; background: var(--surface-2); color: var(--accent); border: 1px solid rgba(0,255,204,.28); padding: 7px 16px; border-radius: 999px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: .2s; }
+    .copy-btn:hover { background: var(--accent); color: #04141a; }
+
     .video-fallback { display: block; text-align: center; font-size: 12.5px; color: var(--accent-2); margin: -14px 0 24px; }
     .video-fallback:hover { text-decoration: underline; }
 
@@ -251,6 +256,15 @@
     document.getElementById('requestBtn').href = TG_URL + "?text=" +
       encodeURIComponent("سڵاو Zarkov، من دڤێت ڤێ یارییێ ل ستۆرێ زێدە بکەی:");
 
+    // App Store style icon tile (inline SVG) for apps without an uploaded icon
+    function mkIcon(c1, c2, inner) {
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${c1}'/><stop offset='1' stop-color='${c2}'/></linearGradient></defs><rect width='200' height='200' fill='url(#g)'/>${inner}</svg>`;
+      return 'data:image/svg+xml,' + encodeURIComponent(svg);
+    }
+    const ICON_INSHOT = mkIcon('#ff4d7d', '#ff9a4d', "<rect x='46' y='58' width='108' height='84' rx='22' fill='none' stroke='white' stroke-width='12'/><path d='M89 80v40l35-20z' fill='white'/>");
+    const ICON_CAPCUT = mkIcon('#0d0d12', '#2c2c38', "<path d='M138 68a50 50 0 1 0 0 64' fill='none' stroke='white' stroke-width='16' stroke-linecap='round'/><path d='M118 152l30-104' stroke='white' stroke-width='10' stroke-linecap='round'/>");
+    const ICON_SPOTIFY = mkIcon('#1ed760', '#0f9d46', "<path d='M96 138V58l56-14v76' fill='none' stroke='#05140b' stroke-width='12' stroke-linejoin='round'/><circle cx='76' cy='140' r='21' fill='#05140b'/><circle cx='132' cy='122' r='21' fill='#05140b'/>");
+
     const appsData = [
       {
         id: "gta5",
@@ -268,6 +282,57 @@
         videoLabel: "فێرکاری دامەزراندن (Tutorial)",
         posterUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/record/IMG_5814.jpeg",
         description: "GTA 5 بۆ سیستەمی iOS، بە خۆڕایی و بێ ئینتەرنێت. سەیری فێرکارییەکە بکە بۆ دامەزراندن."
+      },
+      {
+        id: "inshot",
+        name: "InShot",
+        category: "tweak",
+        isNew: true,
+        subtitle: "Video Editor & Maker",
+        dev: "Zarkov.exe",
+        icon: ICON_INSHOT,
+        size: "—",
+        version: "v1.65.0",
+        sha256: "7c0a7350f4f6e3a3cd62c927ac766c8202bcb4fd1ccd183fa90556356e1a0dda",
+        platform: "iOS / iPad",
+        downloadUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/v1.3/InShot_1.65.0.tg@iapps_ipa.ipa",
+        videoUrl: "",
+        posterUrl: ICON_INSHOT,
+        description: "ئێدیتەرا ڤیدیۆ InShot ڤێرشنا v1.65.0 بۆ ئایفۆن و ئایپاد. ڤیدیۆیێن خۆ ببڕە، میوزیک و ئەفێکت زێدە بکە و ب ئاسانی ئێدیت بکە."
+      },
+      {
+        id: "capcut",
+        name: "CapCut",
+        category: "tweak",
+        isNew: true,
+        subtitle: "Video Editor",
+        dev: "Zarkov.exe",
+        icon: ICON_CAPCUT,
+        size: "—",
+        version: "v7.5.1",
+        sha256: "fd3691b75f3f405647fcc5fb6e5cc123dd52a29a1a6d8bf6a1e86f36138b98d2",
+        platform: "iOS / iPad",
+        downloadUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/Latest/CapCut_7.5.1.tg@iapps_ipa.ipa",
+        videoUrl: "",
+        posterUrl: ICON_CAPCUT,
+        description: "ئێدیتەرا ڤیدیۆ CapCut ڤێرشنا v7.5.1 بۆ ئایفۆن و ئایپاد. ڤیدیۆیێن جوان دروست بکە و ئەفێکت و ترانزیشن زێدە بکە."
+      },
+      {
+        id: "spotify",
+        name: "Spotify",
+        category: "tweak",
+        isNew: true,
+        subtitle: "Music & Podcasts",
+        dev: "Zarkov.exe",
+        icon: ICON_SPOTIFY,
+        size: "—",
+        version: "v8.8.6",
+        sha256: "9095568855e517376feba68a3f0725f7fdd9e7dde9211cfff9de64e93f72582f",
+        platform: "iOS / iPad",
+        downloadUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/music/Spotify_8.8.6.ipa",
+        videoUrl: "",
+        posterUrl: ICON_SPOTIFY,
+        description: "Spotify ڤێرشنا v8.8.6 بۆ ئایفۆن و ئایپاد. گوهدارییا میوزیک و پۆدکاستان بکە ل هەر دەمەکێ."
       },
       {
         id: "8ball",
@@ -382,6 +447,12 @@
           ${media}
           <div class="sec-label">What's New</div>
           <div class="desc-box">${app.description}</div>
+          ${app.sha256 ? `
+          <div class="sec-label">SHA-256</div>
+          <div class="hash-box">
+            <code>${app.sha256}</code>
+            <button class="copy-btn" onclick="copyHash(this, '${app.sha256}')">کۆپی</button>
+          </div>` : ''}
           <a href="${TG_URL}" target="_blank" rel="noopener" class="tg-channel-btn">
             ${TG_ICON}
             <span>کەناڵێ مە یێ تێلیگرامی: <bdi>@${TG_USER}</bdi></span>
@@ -401,6 +472,22 @@
       const page = document.getElementById('detailPage');
       page.classList.remove('active');
       page.setAttribute('aria-hidden', 'true');
+    }
+
+    function copyHash(btn, text) {
+      const done = () => { const old = btn.textContent; btn.textContent = '✓'; setTimeout(() => btn.textContent = old, 1200); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+      } else {
+        fallbackCopy(text, done);
+      }
+    }
+    function fallbackCopy(text, done) {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      document.body.removeChild(ta);
     }
 
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
