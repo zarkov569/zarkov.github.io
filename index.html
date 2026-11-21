@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#05050a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Zarkov.exe">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <title>Zarkov.exe Store</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -183,10 +188,79 @@
     .tg-channel-btn bdi { direction: ltr; }
     .tg-channel-btn:hover { background: var(--surface-2); border-color: var(--accent-2); }
 
+    /* Welcome hero */
+    .hero { max-width: 860px; margin: 22px auto 0; padding: 0 20px; }
+    .hero-card { position: relative; overflow: hidden; border-radius: 24px; padding: 22px; border: 1px solid #1f2c48; background: linear-gradient(135deg, #0f2233, #0a0f1c); }
+    .hero-card::before { content: ""; position: absolute; width: 260px; height: 260px; top: -130px; left: -70px; background: radial-gradient(circle, rgba(0,255,204,.16), transparent 70%); pointer-events: none; }
+    .hero-card > * { position: relative; }
+    .hero-card h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .hero-card h2 bdi { direction: ltr; }
+    .hero-card p { font-size: 13.5px; color: #b6c2d6; line-height: 1.95; margin-bottom: 16px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn-solid { background: linear-gradient(135deg, #00ffcc, #00bfff); color: #04141a; border: 0; padding: 10px 20px; border-radius: 999px; font-weight: 800; font-size: 13px; cursor: pointer; box-shadow: 0 6px 18px rgba(0,255,204,.25); }
+    .btn-soft { display: inline-flex; align-items: center; background: var(--surface-2); color: var(--accent-2); border: 1px solid var(--line); padding: 10px 20px; border-radius: 999px; font-weight: 700; font-size: 13px; direction: ltr; }
+
+    /* Add to Home Screen tip */
+    .a2hs { max-width: 860px; margin: 14px auto 0; padding: 0 20px; }
+    .a2hs[hidden] { display: none; }
+    .a2hs-inner { display: flex; align-items: center; gap: 12px; background: rgba(56,189,248,.08); border: 1px solid rgba(56,189,248,.25); border-radius: 16px; padding: 12px 14px; font-size: 13px; color: #b9d7ee; line-height: 1.8; }
+    .a2hs-inner span { flex: 1; }
+    .a2hs-close { background: none; border: 0; color: #7fa7c4; font-size: 20px; cursor: pointer; padding: 0 4px; }
+
+    /* Featured */
+    .featured { max-width: 860px; margin: 16px auto 0; padding: 0 20px; }
+    .featured:empty { display: none; }
+    .feat-card { position: relative; overflow: hidden; display: flex; align-items: center; gap: 16px; padding: 18px; border-radius: 24px; border: 1px solid rgba(0,255,204,.25); background: #0a0f1c; cursor: pointer; transition: transform .15s; }
+    .feat-card:active { transform: scale(.985); }
+    .feat-bg { position: absolute; inset: -30px; background-size: cover; background-position: center; filter: blur(40px) saturate(1.4); opacity: .35; }
+    .feat-card > *:not(.feat-bg) { position: relative; z-index: 1; }
+    .feat-icon { width: 92px; height: 92px; border-radius: 22px; object-fit: cover; border: 1px solid #334155; box-shadow: 0 10px 26px rgba(0,0,0,.6); flex-shrink: 0; background: var(--surface-2); }
+    .feat-info { flex: 1; min-width: 0; direction: ltr; text-align: right; }
+    .feat-tag { display: inline-block; direction: rtl; font-size: 11.5px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+    .feat-info h3 { font-size: 22px; font-weight: 800; margin-bottom: 2px; }
+    .feat-info p { font-size: 13px; color: #9fb0c8; }
+
+    /* Guide steps */
+    .guide-title { font-size: 20px; font-weight: 800; margin: 6px 0 16px; }
+    .step { display: flex; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin-bottom: 12px; }
+    .step-num { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #00ffcc, #00bfff); color: #04141a; font-weight: 800; display: grid; place-items: center; flex-shrink: 0; }
+    .step h4 { font-size: 15px; margin-bottom: 4px; }
+    .step p { font-size: 13px; color: #b6c2d6; line-height: 1.9; }
+
+    /* Screenshots + share + toast */
+    .shots { display: flex; gap: 12px; overflow-x: auto; margin-bottom: 24px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .shots::-webkit-scrollbar { display: none; }
+    .shots img { height: 300px; border-radius: 16px; border: 1px solid var(--line); scroll-snap-align: start; flex-shrink: 0; background: var(--surface); }
+    .detail-actions { display: flex; align-items: center; gap: 10px; }
+    .btn-share { width: 42px; height: 42px; border-radius: 50%; background: var(--surface-2); border: 1px solid var(--line); color: var(--accent-2); display: grid; place-items: center; cursor: pointer; transition: .2s; }
+    .btn-share:hover { border-color: var(--accent-2); }
+    .toast { position: fixed; left: 50%; bottom: calc(28px + env(safe-area-inset-bottom)); transform: translate(-50%, 20px); background: #121a2b; color: var(--text); border: 1px solid var(--line); padding: 10px 18px; border-radius: 999px; font-size: 13px; opacity: 0; pointer-events: none; transition: .25s; z-index: 300; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* Promo carousel (App Store "Today" style) */
+    .promo-track { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 26px; }
+    .promo-track::-webkit-scrollbar { display: none; }
+    .promo { position: relative; flex: 0 0 100%; scroll-snap-align: start; min-height: 200px; border-radius: 26px; padding: 22px; overflow: hidden; display: flex; align-items: stretch; justify-content: space-between; gap: 14px; cursor: pointer; background: linear-gradient(135deg, var(--c1), var(--c2)); border: 1px solid rgba(255,255,255,.12); box-shadow: 0 14px 36px rgba(0,0,0,.45); }
+    .promo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to left, rgba(0,0,0,.45), rgba(0,0,0,.05) 70%); pointer-events: none; }
+    .promo-bg { position: absolute; inset: -40px; background-size: cover; background-position: center; filter: blur(46px) saturate(1.5); opacity: .35; }
+    .promo > *:not(.promo-bg) { position: relative; z-index: 1; }
+    .promo-text { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; min-width: 0; flex: 1; text-align: right; }
+    .promo-kicker { direction: ltr; align-self: flex-start; font-size: 11.5px; font-weight: 800; letter-spacing: .6px; color: rgba(255,255,255,.85); background: rgba(0,0,0,.28); padding: 4px 10px; border-radius: 999px; }
+    .promo-text h3 { direction: ltr; text-align: right; align-self: stretch; font-size: 28px; line-height: 1.15; font-weight: 800; color: #fff; text-shadow: 0 2px 14px rgba(0,0,0,.35); margin: 10px 0 6px; }
+    .promo-text p { align-self: stretch; font-size: 13px; line-height: 1.85; color: rgba(255,255,255,.88); margin-bottom: 12px; }
+    .promo-get { align-self: flex-start; background: rgba(255,255,255,.94); color: #0a0f1c; padding: 8px 24px; border-radius: 999px; font-weight: 800; font-size: 13px; direction: ltr; }
+    .promo-icon { align-self: center; width: 112px; height: 112px; border-radius: 26px; object-fit: cover; flex-shrink: 0; border: 1px solid rgba(255,255,255,.25); box-shadow: 0 14px 34px rgba(0,0,0,.5); background: rgba(0,0,0,.3); }
+    .promo-dots { display: flex; justify-content: center; gap: 7px; margin-top: 12px; }
+    .promo-dots i { width: 7px; height: 7px; border-radius: 50%; background: #2a364f; transition: .25s; }
+    .promo-dots i.on { width: 22px; border-radius: 6px; background: var(--accent); }
+
     @media (max-width: 480px) {
       .request-card { flex-direction: column; align-items: stretch; text-align: right; }
       .btn-request { justify-content: center; }
       .brand small { display: none; }
+      .promo-text h3 { font-size: 23px; }
+      .promo-icon { width: 86px; height: 86px; border-radius: 20px; }
+      .promo { min-height: 180px; padding: 18px; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -222,6 +296,26 @@
     </div>
   </header>
 
+  <section class="hero">
+    <div class="hero-card">
+      <h2>بخێر بێی بۆ <bdi>Zarkov.exe Store</bdi> 👋</h2>
+      <p>ل ڤێرە دشێی باشترین یاری و ئەپێن iOS و iPad ب ئاسانی بدۆزیتەوە. ئەپەکێ هەلبژێرە، GET بکە، و ئەگەر نزانی چاوا دامەزرێنی، دوگمەیا ڕێنمایی بکاربینە.</p>
+      <div class="hero-actions">
+        <button class="btn-solid" onclick="openGuide()">📘 چۆن دابمەزرێنم؟</button>
+        <a class="btn-soft" href="https://t.me/zarkov_exe3" target="_blank" rel="noopener">@zarkov_exe3</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="a2hs" id="a2hs" hidden>
+    <div class="a2hs-inner">
+      <span>📲 ستۆرێ وەک ئەپ بخە سەر شاشەیا ماڵێ: دوگمەیا <b>Share</b> بنێرە، پاشان <b>Add to Home Screen</b>.</span>
+      <button class="a2hs-close" onclick="dismissTip()" aria-label="Close">×</button>
+    </div>
+  </div>
+
+  <section class="featured" id="featured"></section>
+
   <main class="apps-grid" id="appsGrid"></main>
 
   <section class="request-section">
@@ -238,6 +332,25 @@
   </section>
 
   <footer class="footer">© Zarkov.exe Store</footer>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="detail-page" id="guidePage" aria-hidden="true">
+    <div class="detail-nav">
+      <button class="back-btn" onclick="closeGuide()">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" transform="scale(-1 1) translate(-24 0)"/></svg>
+        زڤڕین (Store)
+      </button>
+    </div>
+    <div class="detail-content" style="padding-top:22px">
+      <h2 class="guide-title">چۆن ئەپان دامەزرێنم؟</h2>
+      <div class="step"><div class="step-num">1</div><div><h4>دابەزاندن</h4><p>ل سەر <b>GET</b> بکە و فایلێ IPA دابەزینە. ئەگەر Google Drive پەیامەکێ نیشان دا، کلیک ل «Download anyway» بکە.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div><h4>ئیمزاکرن (Sign)</h4><p>فایلێ IPA ب ئامرازەکێ ئیمزاکرنا IPA ئیمزا بکە، چونکە iOS تەنها ئەپێن ئیمزاکری قەبوڵ دکەت.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div><h4>دامەزراندن</h4><p>پشتی ئیمزاکرنێ، ئەپ دابمەزرێنە. ئەگەر پێدڤی بوو، ل <b>Settings ← General ← VPN &amp; Device Management</b> ئەپی Trust بکە.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div><h4>کێشەیەک هەیە؟</h4><p>ئەگەر ئەپ نەکرایەوە یان پرسیارەکێ هەبیت، پەیوەندی ب ئێمە ڤە بکە.</p></div></div>
+      <a href="https://t.me/zarkov_exe3" target="_blank" rel="noopener" class="tg-channel-btn"><bdi>@zarkov_exe3</bdi></a>
+    </div>
+  </div>
 
   <div class="detail-page" id="detailPage" aria-hidden="true">
     <div class="detail-nav">
@@ -289,6 +402,7 @@
       },
       {
         id: "gta5",
+        featured: true,
         name: "GTA V",
         category: "game",
         isNew: true,
@@ -425,6 +539,7 @@
 
     function filterApps() {
       const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      renderFeatured(q);
       renderApps(appsData.filter(app => {
         const okCat = currentCategory === 'all' || app.category === currentCategory;
         const okSearch = app.name.toLowerCase().includes(q) || app.subtitle.toLowerCase().includes(q);
@@ -455,7 +570,12 @@
             <div class="detail-title-box">
               <h2>${app.isNew ? '<span class="badge-new">NEW</span>' : ''}<span>${app.name}</span></h2>
               <div class="dev">${app.dev}</div>
-              <a href="${app.downloadUrl}" class="btn-get-large">GET</a>
+              <div class="detail-actions">
+                <a href="${app.downloadUrl}" class="btn-get-large">GET</a>
+                <button class="btn-share" onclick="shareApp('${app.id}')" aria-label="Share">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -467,6 +587,7 @@
             <div class="spec-item">Platform <span>${app.platform}</span></div>
           </div>
           ${media}
+          ${(app.screens && app.screens.length) ? `<div class="sec-label">Screenshots</div><div class="shots">${app.screens.map(u => `<img src="${u}" alt="" loading="lazy">`).join('')}</div>` : ''}
           <div class="sec-label">What's New</div>
           <div class="desc-box">${app.description}</div>
           ${app.sha256 ? `
@@ -486,6 +607,7 @@
       page.scrollTop = 0;
       page.classList.add('active');
       page.setAttribute('aria-hidden', 'false');
+      try { history.replaceState(null, '', '#' + id); } catch (e) {}
     }
 
     function closeDetail() {
@@ -494,6 +616,7 @@
       const page = document.getElementById('detailPage');
       page.classList.remove('active');
       page.setAttribute('aria-hidden', 'true');
+      try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
     }
 
     function copyHash(btn, text) {
@@ -512,9 +635,111 @@
       document.body.removeChild(ta);
     }
 
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+    const promos = [
+      { id: 'gta5', kicker: 'NEW \u2022 iOS', title: 'GTA V on iPhone & iPad', text: 'ب خۆڕایی و بێ ئینتەرنێت. فێرکاریا دامەزراندنێ ل ناڤ لاپەڕەیێ هەیە.', c1: '#ff8a3d', c2: '#6d1fa8' },
+      { id: 'carparking', kicker: 'NEW \u2022 GAME', title: 'Drive. Park. Repeat.', text: 'یاریا Car Parking: ئۆتۆمبێلێن جۆراوجۆر لێبخورە و پارک بکە.', c1: '#1d4ed8', c2: '#06b6d4' },
+      { id: 'spotify', kicker: 'NEW \u2022 MUSIC', title: 'Your music, anywhere', text: 'گوهدارییا میوزیک و پۆدکاستان بکە ل هەر دەمەکێ.', c1: '#16a34a', c2: '#0b3d24' },
+      { id: 'capcut', kicker: 'NEW \u2022 VIDEO', title: 'Edit like a pro', text: 'CapCut و InShot بۆ دروستکرنا ڤیدیۆیێن جوان.', c1: '#7c3aed', c2: '#db2777' }
+    ];
+    let promoShown = false, promoIdx = 0, promoTimer = null;
 
-    renderApps(appsData);
+    function promoGo(i) {
+      const t = document.getElementById('promoTrack');
+      if (!t) return;
+      promoIdx = i;
+      const sign = getComputedStyle(t).direction === 'rtl' ? -1 : 1;
+      t.scrollTo({ left: sign * i * t.clientWidth, behavior: 'smooth' });
+    }
+    function stopPromo() { if (promoTimer) { clearInterval(promoTimer); promoTimer = null; } }
+    function startPromo() {
+      stopPromo();
+      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      promoTimer = setInterval(() => {
+        const t = document.getElementById('promoTrack');
+        if (!t) return stopPromo();
+        promoGo((promoIdx + 1) % t.children.length);
+      }, 5000);
+    }
+
+    function renderFeatured(q) {
+      const box = document.getElementById('featured');
+      const show = currentCategory === 'all' && !q;
+      if (!show) { box.innerHTML = ''; promoShown = false; stopPromo(); return; }
+      if (promoShown) return;
+      const cards = promos.map(p => {
+        const a = appsData.find(x => x.id === p.id);
+        if (!a) return '';
+        return `
+          <div class="promo" style="--c1:${p.c1};--c2:${p.c2}" onclick="openDetail('${a.id}')">
+            <div class="promo-bg" style="background-image:url('${a.icon}')"></div>
+            <div class="promo-text">
+              <span class="promo-kicker">${p.kicker}</span>
+              <h3>${p.title}</h3>
+              <p>${p.text}</p>
+              <a href="${a.downloadUrl}" class="promo-get" onclick="event.stopPropagation()">GET</a>
+            </div>
+            <img class="promo-icon" src="${a.icon}" alt="${a.name}">
+          </div>`;
+      }).join('');
+      box.innerHTML = `<div class="promo-track" id="promoTrack">${cards}</div>
+        <div class="promo-dots" id="promoDots">${promos.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>`;
+      promoShown = true; promoIdx = 0;
+      const t = document.getElementById('promoTrack');
+      t.addEventListener('scroll', () => {
+        const i = Math.round(Math.abs(t.scrollLeft) / t.clientWidth);
+        document.querySelectorAll('#promoDots i').forEach((d, k) => d.classList.toggle('on', k === i));
+        promoIdx = i;
+      }, { passive: true });
+      t.addEventListener('touchstart', stopPromo, { passive: true });
+      t.addEventListener('touchend', () => setTimeout(startPromo, 6000), { passive: true });
+      startPromo();
+    }
+
+    function openGuide() {
+      const g = document.getElementById('guidePage');
+      g.scrollTop = 0; g.classList.add('active'); g.setAttribute('aria-hidden', 'false');
+    }
+    function closeGuide() {
+      const g = document.getElementById('guidePage');
+      g.classList.remove('active'); g.setAttribute('aria-hidden', 'true');
+    }
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 1800);
+    }
+
+    async function shareApp(id) {
+      const app = appsData.find(a => a.id === id);
+      if (!app) return;
+      const url = location.href.split('#')[0] + '#' + id;
+      const data = { title: app.name + ' | Zarkov.exe Store', text: app.name + ' ل ستۆرێ Zarkov.exe', url };
+      try {
+        if (navigator.share) { await navigator.share(data); return; }
+      } catch (e) {
+        if (e && e.name === 'AbortError') return;
+      }
+      fallbackCopy(url, () => toast('لینک کۆپی کرا ✓'));
+    }
+
+    function dismissTip() {
+      document.getElementById('a2hs').hidden = true;
+      try { localStorage.setItem('zx_tip_closed', '1'); } catch (e) {}
+    }
+    function initTip() {
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const standalone = window.navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+      let closed = false;
+      try { closed = localStorage.getItem('zx_tip_closed') === '1'; } catch (e) {}
+      if (isIOS && !standalone && !closed) document.getElementById('a2hs').hidden = false;
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeDetail(); closeGuide(); } });
+
+    filterApps();
+    initTip();
+    if (location.hash.length > 1) openDetail(decodeURIComponent(location.hash.slice(1)));
   </script>
 </body>
 </html>
