@@ -165,6 +165,9 @@
     .video-box { width: 100%; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); background: #000; margin-bottom: 24px; }
     .video-box video, .video-box img { width: 100%; max-height: 300px; display: block; object-fit: cover; }
 
+    .note-box { display: flex; gap: 12px; align-items: flex-start; background: rgba(56,189,248,.08); border: 1px solid rgba(56,189,248,.25); border-radius: 16px; padding: 14px 16px; margin: 14px 0 0; }
+    .note-box p { font-size: 13px; color: #b9d7ee; line-height: 1.8; }
+
     .hash-box { display: flex; align-items: center; gap: 12px; direction: ltr; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; margin-bottom: 20px; }
     .hash-box code { flex: 1; min-width: 0; font: 12px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; color: #9fb3d1; word-break: break-all; }
     .copy-btn { flex-shrink: 0; background: var(--surface-2); color: var(--accent); border: 1px solid rgba(0,255,204,.28); padding: 7px 16px; border-radius: 999px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: .2s; }
@@ -274,13 +277,15 @@
         subtitle: "Driving & Parking Simulator",
         dev: "Zarkov.exe",
         icon: "https://lh3.googleusercontent.com/d/1twx43bErCBCQG_MkA2F2GOwfM1Ino7sg",
-        size: "2.1 GB",
-        version: "—",
+        size: "2.2 GB",
+        version: "v4.9.11",
+        sha256: "565b7ee90ace9376a979c5905cd09319d5ee996f28df8403928399e1ea6e9904",
+        note: "ئەگەر Google Drive پەیامەکێ نیشان دا کو دبێژیت \"can't scan this file for viruses\"، ئەڤە ئاماژە نینە کو فایل ڤایرۆسە. تەنها ژ بەر مەزنیا فایلی (2.2GB) Google ناشێت سکان بکەت. کلیک ل «Download anyway» بکە.",
         platform: "iOS / iPad",
         downloadUrl: "https://drive.usercontent.google.com/download?id=189_BYOTzKQpH-C6kFhmF4fF-dULLBnmB&export=download&confirm=t",
         videoUrl: "",
         posterUrl: "https://lh3.googleusercontent.com/d/1twx43bErCBCQG_MkA2F2GOwfM1Ino7sg",
-        description: "یاریا Car Parking بۆ ئایفۆن و ئایپاد. ئۆتۆمبێلێن جۆراوجۆر لێبخورە و پارک بکە. قەبارەیا یاریێ 2.1GB یە، بۆیە پشتڕاست بە ل سەر ئامێرێ تە جهێ پێدڤی هەیە."
+        description: "یاریا Car Parking بۆ ئایفۆن و ئایپاد. ئۆتۆمبێلێن جۆراوجۆر لێبخورە و پارک بکە. قەبارەیا یاریێ 2.2GB یە، بۆیە پشتڕاست بە ل سەر ئامێرێ تە جهێ پێدڤی هەیە."
       },
       {
         id: "gta5",
@@ -455,6 +460,7 @@
           </div>
         </div>
         <div class="detail-content">
+          ${app.note ? `<div class="note-box"><span>ℹ️</span><p>${app.note}</p></div>` : ''}
           <div class="specs-bar">
             <div class="spec-item">Size <span>${app.size}</span></div>
             <div class="spec-item">Version <span>${app.version}</span></div>
