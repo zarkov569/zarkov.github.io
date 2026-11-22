@@ -254,6 +254,46 @@
     .promo-dots i { width: 7px; height: 7px; border-radius: 50%; background: #2a364f; transition: .25s; }
     .promo-dots i.on { width: 22px; border-radius: 6px; background: var(--accent); }
 
+    /* Aurora background */
+    .aurora { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+    .aurora i { position: absolute; width: 70vmax; height: 70vmax; border-radius: 50%; will-change: transform; }
+    .aurora i:nth-child(1) { top: -30vmax; right: -20vmax; background: radial-gradient(circle, rgba(0,255,204,.16), transparent 65%); animation: drift1 22s ease-in-out infinite alternate; }
+    .aurora i:nth-child(2) { top: 12vmax; left: -30vmax; background: radial-gradient(circle, rgba(56,189,248,.14), transparent 65%); animation: drift2 26s ease-in-out infinite alternate; }
+    .aurora i:nth-child(3) { bottom: -35vmax; right: -10vmax; background: radial-gradient(circle, rgba(167,139,250,.12), transparent 65%); animation: drift3 30s ease-in-out infinite alternate; }
+    @keyframes drift1 { to { transform: translate(-12vmax, 10vmax) scale(1.15); } }
+    @keyframes drift2 { to { transform: translate(14vmax, -6vmax) scale(1.2); } }
+    @keyframes drift3 { to { transform: translate(-10vmax, -12vmax) scale(1.1); } }
+
+    /* Splash */
+    .splash { position: fixed; inset: 0; z-index: 600; background: #05050a; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; animation: splashOut .55s ease 1.5s forwards; }
+    .splash .logo-big { width: 104px; height: 104px; border-radius: 30px; display: grid; place-items: center; background: linear-gradient(145deg, #00ffcc, #0aa5d8); color: #04141a; font: 800 58px/1 "Vazirmatn", sans-serif; direction: ltr; animation: pulse 1.4s ease-in-out infinite; }
+    .splash p { font-size: 20px; font-weight: 800; direction: ltr; }
+    .splash p span { color: var(--accent); }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 30px rgba(0,255,204,.35); transform: scale(1); } 50% { box-shadow: 0 0 70px rgba(0,255,204,.6); transform: scale(1.06); } }
+    @keyframes splashOut { to { opacity: 0; visibility: hidden; } }
+
+    /* Coming soon card */
+    .app-row-card.soon { background: transparent; border: 1.5px dashed #2a3a5c; cursor: default; box-shadow: none; }
+    .app-row-card.soon:hover { border-color: rgba(255,193,7,.4); box-shadow: none; }
+    .soon-icon { width: 66px; height: 66px; border-radius: 16px; display: grid; place-items: center; font: 800 24px "Vazirmatn", sans-serif; color: #fff; direction: ltr; background: linear-gradient(145deg, #2e7d32, #f59e0b); flex-shrink: 0; animation: shimmer 2.2s ease-in-out infinite; }
+    @keyframes shimmer { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+    .badge-soon { background: rgba(255,193,7,.12); color: #ffc371; font-size: 10px; padding: 2px 7px; border-radius: 6px; font-weight: 800; border: 1px solid rgba(255,193,7,.3); }
+    .btn-soon { font-size: 20px; opacity: .8; padding: 0 10px; }
+
+    /* Language button + LTR overrides */
+    .top-actions { display: flex; align-items: center; gap: 8px; }
+    .lang-btn { background: var(--surface); color: var(--text); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; font: 700 13px "Vazirmatn", sans-serif; cursor: pointer; transition: .2s; }
+    .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
+    [dir="rtl"] .back-btn svg { transform: scaleX(-1); }
+    [dir="ltr"] .search-box svg { right: auto; left: 14px; }
+    [dir="ltr"] .search-box input { padding: 12px 16px 12px 44px; }
+    [dir="ltr"] .spec-item + .spec-item { border-right: 0; border-left: 1px solid var(--line); }
+    [dir="ltr"] .promo::after { background: linear-gradient(to right, rgba(0,0,0,.45), rgba(0,0,0,.05) 70%); }
+    [dir="ltr"] .promo-text, [dir="ltr"] .promo-text h3 { text-align: left; }
+    [dir="ltr"] .row-info h3 { justify-content: flex-start; }
+    [dir="ltr"] .row-info p { text-align: left; }
+    [dir="ltr"] .detail-title-box .dev { text-align: left; }
+
     @media (max-width: 480px) {
       .request-card { flex-direction: column; align-items: stretch; text-align: right; }
       .btn-request { justify-content: center; }
@@ -269,6 +309,13 @@
 </head>
 <body>
 
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="splash" id="splash" aria-hidden="true">
+    <div class="logo-big">Z</div>
+    <p>Zarkov<span>.exe</span> Store</p>
+  </div>
+  <script>try{if(sessionStorage.getItem('zx_splash')){document.getElementById('splash').style.display='none'}else{sessionStorage.setItem('zx_splash','1')}}catch(e){}</script>
+
   <header class="top-bar">
     <div class="wrap">
       <div class="store-title">
@@ -276,32 +323,35 @@
           <div class="logo">Z</div>
           <div>
             <h1>Zarkov<span>.exe</span> Store</h1>
-            <small>یاری و بەرنامەی تایبەت بۆ iOS / iPad</small>
+            <small data-i18n="brandSub">یاری و بەرنامەی تایبەت بۆ iOS / iPad</small>
           </div>
         </div>
+        <div class="top-actions">
+        <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
         <a class="tg-mini" id="tgMini" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 3.4 2.9 10.6c-.9.4-.9 1.2-.2 1.4l4.8 1.5 1.8 5.6c.2.6.4.8.9.8s.6-.2.9-.5l2.4-2.3 4.9 3.6c.9.5 1.5.2 1.7-.8l3-14.3c.3-1.2-.4-1.8-1.5-1.3ZM8.7 13.2l9.9-6.2c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4-1.9-4.8Z"/></svg>
           <bdi id="tgHandle"></bdi>
         </a>
+        </div>
       </div>
       <div class="search-box">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input type="search" id="searchInput" placeholder="ل ناڤێ یارییەکێ بگەڕە..." oninput="filterApps()" aria-label="Search">
+        <input type="search" id="searchInput" placeholder="ل ناڤێ یارییەکێ بگەڕە..." data-i18n-ph="ph" oninput="filterApps()" aria-label="Search">
       </div>
       <div class="categories">
-        <button class="cat-btn active" onclick="filterCategory('all', this)">هەمی (All)</button>
-        <button class="cat-btn" onclick="filterCategory('game', this)">یاری (Games)</button>
-        <button class="cat-btn" onclick="filterCategory('tweak', this)">بەرنامە/مۆد (Tweaks)</button>
+        <button class="cat-btn active" onclick="filterCategory('all', this)" data-i18n="catAll">هەمی (All)</button>
+        <button class="cat-btn" onclick="filterCategory('game', this)" data-i18n="catGame">یاری (Games)</button>
+        <button class="cat-btn" onclick="filterCategory('tweak', this)" data-i18n="catTweak">بەرنامە/مۆد (Tweaks)</button>
       </div>
     </div>
   </header>
 
   <section class="hero">
     <div class="hero-card">
-      <h2>بخێر بێی بۆ <bdi>Zarkov.exe Store</bdi> 👋</h2>
-      <p>ل ڤێرە دشێی باشترین یاری و ئەپێن iOS و iPad ب ئاسانی بدۆزیتەوە. ئەپەکێ هەلبژێرە، GET بکە، و ئەگەر نزانی چاوا دامەزرێنی، دوگمەیا ڕێنمایی بکاربینە.</p>
+      <h2 data-i18n-html="heroTitle">بخێر بێی بۆ <bdi>Zarkov.exe Store</bdi> 👋</h2>
+      <p data-i18n="heroText">ل ڤێرە دشێی باشترین یاری و ئەپێن iOS و iPad ب ئاسانی بدۆزیتەوە. ئەپەکێ هەلبژێرە، GET بکە، و ئەگەر نزانی چاوا دامەزرێنی، دوگمەیا ڕێنمایی بکاربینە.</p>
       <div class="hero-actions">
-        <button class="btn-solid" onclick="openGuide()">📘 چۆن دابمەزرێنم؟</button>
+        <button class="btn-solid" onclick="openGuide()" data-i18n="heroBtn">📘 چۆن دابمەزرێنم؟</button>
         <a class="btn-soft" href="https://t.me/zarkov_exe3" target="_blank" rel="noopener">@zarkov_exe3</a>
       </div>
     </div>
@@ -309,7 +359,7 @@
 
   <div class="a2hs" id="a2hs" hidden>
     <div class="a2hs-inner">
-      <span>📲 ستۆرێ وەک ئەپ بخە سەر شاشەیا ماڵێ: دوگمەیا <b>Share</b> بنێرە، پاشان <b>Add to Home Screen</b>.</span>
+      <span data-i18n-html="tipHtml">📲 ستۆرێ وەک ئەپ بخە سەر شاشەیا ماڵێ: دوگمەیا <b>Share</b> بنێرە، پاشان <b>Add to Home Screen</b>.</span>
       <button class="a2hs-close" onclick="dismissTip()" aria-label="Close">×</button>
     </div>
   </div>
@@ -321,12 +371,12 @@
   <section class="request-section">
     <div class="request-card">
       <div class="request-info">
-        <h3>داخوازا یارییەکێ بکە 🚀</h3>
-        <p>یاریا تە دلخواز ل ستۆرێ نینە؟ ڕاستەوخۆ بۆ مە بنێرە!</p>
+        <h3 data-i18n="reqTitle">داخوازا یارییەکێ بکە 🚀</h3>
+        <p data-i18n="reqText">یاریا تە دلخواز ل ستۆرێ نینە؟ ڕاستەوخۆ بۆ مە بنێرە!</p>
       </div>
       <a class="btn-request" id="requestBtn" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 3.4 2.9 10.6c-.9.4-.9 1.2-.2 1.4l4.8 1.5 1.8 5.6c.2.6.4.8.9.8s.6-.2.9-.5l2.4-2.3 4.9 3.6c.9.5 1.5.2 1.7-.8l3-14.3c.3-1.2-.4-1.8-1.5-1.3ZM8.7 13.2l9.9-6.2c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4-1.9-4.8Z"/></svg>
-        داخواز بکە
+        <span data-i18n="reqBtn">داخواز بکە</span>
       </a>
     </div>
   </section>
@@ -339,15 +389,15 @@
     <div class="detail-nav">
       <button class="back-btn" onclick="closeGuide()">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" transform="scale(-1 1) translate(-24 0)"/></svg>
-        زڤڕین (Store)
+        <span data-i18n="back">زڤڕین (Store)</span>
       </button>
     </div>
     <div class="detail-content" style="padding-top:22px">
-      <h2 class="guide-title">چۆن ئەپان دامەزرێنم؟</h2>
-      <div class="step"><div class="step-num">1</div><div><h4>دابەزاندن</h4><p>ل سەر <b>GET</b> بکە و فایلێ IPA دابەزینە. ئەگەر Google Drive پەیامەکێ نیشان دا، کلیک ل «Download anyway» بکە.</p></div></div>
-      <div class="step"><div class="step-num">2</div><div><h4>ئیمزاکرن (Sign)</h4><p>فایلێ IPA ب ئامرازەکێ ئیمزاکرنا IPA ئیمزا بکە، چونکە iOS تەنها ئەپێن ئیمزاکری قەبوڵ دکەت.</p></div></div>
-      <div class="step"><div class="step-num">3</div><div><h4>دامەزراندن</h4><p>پشتی ئیمزاکرنێ، ئەپ دابمەزرێنە. ئەگەر پێدڤی بوو، ل <b>Settings ← General ← VPN &amp; Device Management</b> ئەپی Trust بکە.</p></div></div>
-      <div class="step"><div class="step-num">4</div><div><h4>کێشەیەک هەیە؟</h4><p>ئەگەر ئەپ نەکرایەوە یان پرسیارەکێ هەبیت، پەیوەندی ب ئێمە ڤە بکە.</p></div></div>
+      <h2 class="guide-title" data-i18n="guideTitle">چۆن ئەپان دامەزرێنم؟</h2>
+      <div class="step"><div class="step-num">1</div><div><h4 data-i18n="s1t">دابەزاندن</h4><p data-i18n-html="s1p">ل سەر <b>GET</b> بکە و فایلێ IPA دابەزینە. ئەگەر Google Drive پەیامەکێ نیشان دا، کلیک ل «Download anyway» بکە.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div><h4 data-i18n="s2t">ئیمزاکرن (Sign)</h4><p data-i18n-html="s2p">فایلێ IPA ب ئامرازەکێ ئیمزاکرنا IPA ئیمزا بکە، چونکە iOS تەنها ئەپێن ئیمزاکری قەبوڵ دکەت.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div><h4 data-i18n="s3t">دامەزراندن</h4><p data-i18n-html="s3p">پشتی ئیمزاکرنێ، ئەپ دابمەزرێنە. ئەگەر پێدڤی بوو، ل <b>Settings ← General ← VPN &amp; Device Management</b> ئەپی Trust بکە.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div><h4 data-i18n="s4t">کێشەیەک هەیە؟</h4><p data-i18n-html="s4p">ئەگەر ئەپ نەکرایەوە یان پرسیارەکێ هەبیت، پەیوەندی ب ئێمە ڤە بکە.</p></div></div>
       <a href="https://t.me/zarkov_exe3" target="_blank" rel="noopener" class="tg-channel-btn"><bdi>@zarkov_exe3</bdi></a>
     </div>
   </div>
@@ -356,7 +406,7 @@
     <div class="detail-nav">
       <button class="back-btn" onclick="closeDetail()">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" transform="scale(-1 1) translate(-24 0)"/></svg>
-        زڤڕین (Store)
+        <span data-i18n="back">زڤڕین (Store)</span>
       </button>
     </div>
     <div id="detailRoot"></div>
@@ -504,12 +554,14 @@
     ];
 
     let currentCategory = 'all';
+    let currentDetail = null;
+    let lang = 'ku';
     const grid = document.getElementById('appsGrid');
 
     function renderApps(list) {
       grid.innerHTML = '';
       if (list.length === 0) {
-        grid.innerHTML = '<div class="empty">چ ئەپەک نەهاتە دیتن...</div>';
+        grid.innerHTML = '<div class="empty">' + t('noApps') + '</div>';
         return;
       }
       list.forEach(app => {
@@ -528,6 +580,22 @@
         `;
         grid.appendChild(card);
       });
+      const qNow = document.getElementById('searchInput').value.trim();
+      if (!qNow && (currentCategory === 'all' || currentCategory === 'game')) {
+        const soon = document.createElement('div');
+        soon.className = 'app-row-card soon';
+        soon.onclick = () => toast(t('soonToast'));
+        soon.innerHTML = `
+          <div class="row-left">
+            <div class="soon-icon">SA</div>
+            <div class="row-info">
+              <h3><span class="badge-soon">SOON</span><span>GTA San Andreas</span></h3>
+              <p>Coming Soon \u2022 Work in progress</p>
+            </div>
+          </div>
+          <span class="btn-soon">\u23F3</span>`;
+        grid.appendChild(soon);
+      }
     }
 
     function filterCategory(cat, btn) {
@@ -550,15 +618,16 @@
     function openDetail(id) {
       const app = appsData.find(a => a.id === id);
       if (!app) return;
+      currentDetail = id;
 
       const media = app.videoUrl ? `
-        <div class="sec-label">${app.videoLabel || 'Gameplay Preview'}</div>
+        <div class="sec-label">${L(app, 'videoLabel') || 'Gameplay Preview'}</div>
         <div class="video-box">
           <video controls playsinline webkit-playsinline preload="auto" poster="${app.posterUrl}">
             <source src="${app.videoUrl}" type="${app.videoType || (app.videoUrl.endsWith('.mov') ? 'video/quicktime' : 'video/mp4')}">
           </video>
         </div>
-        <a href="${app.videoUrl}" target="_blank" rel="noopener" class="video-fallback">ئەگەر ڤیدیۆکە کار نەکرد، لێرە بیکەرەوە</a>` : `
+        <a href="${app.videoUrl}" target="_blank" rel="noopener" class="video-fallback">${t('videoFallback')}</a>` : `
         <div class="sec-label">App Preview</div>
         <div class="video-box"><img src="${app.posterUrl}" alt="Preview"></div>`;
 
@@ -580,7 +649,7 @@
           </div>
         </div>
         <div class="detail-content">
-          ${app.note ? `<div class="note-box"><span>ℹ️</span><p>${app.note}</p></div>` : ''}
+          ${app.note ? `<div class="note-box"><span>ℹ️</span><p>${L(app, 'note')}</p></div>` : ''}
           <div class="specs-bar">
             <div class="spec-item">Size <span>${app.size}</span></div>
             <div class="spec-item">Version <span>${app.version}</span></div>
@@ -589,16 +658,16 @@
           ${media}
           ${(app.screens && app.screens.length) ? `<div class="sec-label">Screenshots</div><div class="shots">${app.screens.map(u => `<img src="${u}" alt="" loading="lazy">`).join('')}</div>` : ''}
           <div class="sec-label">What's New</div>
-          <div class="desc-box">${app.description}</div>
+          <div class="desc-box">${L(app, 'description')}</div>
           ${app.sha256 ? `
           <div class="sec-label">SHA-256</div>
           <div class="hash-box">
             <code>${app.sha256}</code>
-            <button class="copy-btn" onclick="copyHash(this, '${app.sha256}')">کۆپی</button>
+            <button class="copy-btn" onclick="copyHash(this, '${app.sha256}')">${t('copy')}</button>
           </div>` : ''}
           <a href="${TG_URL}" target="_blank" rel="noopener" class="tg-channel-btn">
             ${TG_ICON}
-            <span>کەناڵێ مە یێ تێلیگرامی: <bdi>@${TG_USER}</bdi></span>
+            <span>${t('tgChannel')}</span>
           </a>
         </div>
       `;
@@ -613,6 +682,7 @@
     function closeDetail() {
       const vid = document.querySelector('#detailRoot video');
       if (vid) vid.pause();
+      currentDetail = null;
       const page = document.getElementById('detailPage');
       page.classList.remove('active');
       page.setAttribute('aria-hidden', 'true');
@@ -675,7 +745,7 @@
             <div class="promo-text">
               <span class="promo-kicker">${p.kicker}</span>
               <h3>${p.title}</h3>
-              <p>${p.text}</p>
+              <p>${(lang === 'en' && PROMO_EN[p.id]) || p.text}</p>
               <a href="${a.downloadUrl}" class="promo-get" onclick="event.stopPropagation()">GET</a>
             </div>
             <img class="promo-icon" src="${a.icon}" alt="${a.name}">
@@ -714,13 +784,13 @@
       const app = appsData.find(a => a.id === id);
       if (!app) return;
       const url = location.href.split('#')[0] + '#' + id;
-      const data = { title: app.name + ' | Zarkov.exe Store', text: app.name + ' ل ستۆرێ Zarkov.exe', url };
+      const data = { title: app.name + ' | Zarkov.exe Store', text: app.name + t('shareSuffix'), url };
       try {
         if (navigator.share) { await navigator.share(data); return; }
       } catch (e) {
         if (e && e.name === 'AbortError') return;
       }
-      fallbackCopy(url, () => toast('لینک کۆپی کرا ✓'));
+      fallbackCopy(url, () => toast(t('linkCopied')));
     }
 
     function dismissTip() {
@@ -735,9 +805,125 @@
       if (isIOS && !standalone && !closed) document.getElementById('a2hs').hidden = false;
     }
 
+    // ---------- Language (Kurdish / English) ----------
+    const I18N = {
+      ku: {
+        brandSub: 'یاری و بەرنامەی تایبەت بۆ iOS / iPad',
+        ph: 'ل ناڤێ یارییەکێ بگەڕە...',
+        catAll: 'هەمی (All)', catGame: 'یاری (Games)', catTweak: 'بەرنامە/مۆد (Tweaks)',
+        heroTitle: 'بخێر بێی بۆ <bdi>Zarkov.exe Store</bdi> 👋',
+        heroText: 'ل ڤێرە دشێی باشترین یاری و ئەپێن iOS و iPad ب ئاسانی بدۆزیتەوە. ئەپەکێ هەلبژێرە، GET بکە، و ئەگەر نزانی چاوا دامەزرێنی، دوگمەیا ڕێنمایی بکاربینە.',
+        heroBtn: '📘 چۆن دابمەزرێنم؟',
+        tipHtml: '📲 ستۆرێ وەک ئەپ بخە سەر شاشەیا ماڵێ: دوگمەیا <b>Share</b> بنێرە، پاشان <b>Add to Home Screen</b>.',
+        reqTitle: 'داخوازا یارییەکێ بکە 🚀',
+        reqText: 'یاریا تە دلخواز ل ستۆرێ نینە؟ ڕاستەوخۆ بۆ مە بنێرە!',
+        reqBtn: 'داخواز بکە',
+        reqMsg: 'سڵاو Zarkov، من دڤێت ڤێ یارییێ ل ستۆرێ زێدە بکەی:',
+        back: 'زڤڕین (Store)',
+        guideTitle: 'چۆن ئەپان دامەزرێنم؟',
+        s1t: 'دابەزاندن', s1p: 'ل سەر <b>GET</b> بکە و فایلێ IPA دابەزینە. ئەگەر Google Drive پەیامەکێ نیشان دا، کلیک ل «Download anyway» بکە.',
+        s2t: 'ئیمزاکرن (Sign)', s2p: 'فایلێ IPA ب ئامرازەکێ ئیمزاکرنا IPA ئیمزا بکە، چونکە iOS تەنها ئەپێن ئیمزاکری قەبوڵ دکەت.',
+        s3t: 'دامەزراندن', s3p: 'پشتی ئیمزاکرنێ، ئەپ دابمەزرێنە. ئەگەر پێدڤی بوو، ل <b>Settings ← General ← VPN &amp; Device Management</b> ئەپی Trust بکە.',
+        s4t: 'کێشەیەک هەیە؟', s4p: 'ئەگەر ئەپ نەکرایەوە یان پرسیارەکێ هەبیت، پەیوەندی ب ئێمە ڤە بکە.',
+        tgChannel: 'کەناڵێ مە یێ تێلیگرامی: <bdi>@zarkov_exe3</bdi>',
+        videoFallback: 'ئەگەر ڤیدیۆکە کار نەکرد، لێرە بیکەرەوە',
+        copy: 'کۆپی', noApps: 'چ ئەپەک نەهاتە دیتن...', linkCopied: 'لینک کۆپی کرا ✓',
+        soonToast: 'GTA San Andreas بەمزووانە دێت 🔜', shareSuffix: ' ل ستۆرێ Zarkov.exe'
+      },
+      en: {
+        brandSub: 'Exclusive games & apps for iOS / iPad',
+        ph: 'Search for a game...',
+        catAll: 'All', catGame: 'Games', catTweak: 'Apps / Tweaks',
+        heroTitle: 'Welcome to <bdi>Zarkov.exe Store</bdi> 👋',
+        heroText: "Find the best iOS and iPad games and apps here, easily. Pick an app, tap GET, and if you're not sure how to install it, use the guide button.",
+        heroBtn: '📘 How do I install?',
+        tipHtml: '📲 Add the store to your Home Screen: tap <b>Share</b>, then <b>Add to Home Screen</b>.',
+        reqTitle: 'Request a game 🚀',
+        reqText: "Can't find your favorite game in the store? Send it to us directly!",
+        reqBtn: 'Request',
+        reqMsg: "Hi Zarkov, I'd like you to add this game to the store:",
+        back: 'Back (Store)',
+        guideTitle: 'How do I install apps?',
+        s1t: 'Download', s1p: 'Tap <b>GET</b> and download the IPA file. If Google Drive shows a warning, tap “Download anyway”.',
+        s2t: 'Sign', s2p: 'Sign the IPA file with an IPA signing tool, because iOS only accepts signed apps.',
+        s3t: 'Install', s3p: 'After signing, install the app. If needed, go to <b>Settings → General → VPN &amp; Device Management</b> and trust the app.',
+        s4t: 'Having trouble?', s4p: "If the app won't open or you have a question, contact us.",
+        tgChannel: 'Our Telegram channel: <bdi>@zarkov_exe3</bdi>',
+        videoFallback: "If the video doesn't play, open it here",
+        copy: 'Copy', noApps: 'No apps found...', linkCopied: 'Link copied ✓',
+        soonToast: 'GTA San Andreas is coming soon 🔜', shareSuffix: ' on Zarkov.exe Store'
+      }
+    };
+    const EN = {
+      gta5: { description: 'GTA 5 for iOS, free and works offline. Watch the tutorial to see how to install it.', videoLabel: 'Install Tutorial' },
+      carparking: {
+        description: 'Car Parking for iPhone and iPad. Drive different cars and park them. The game is 2.2GB, so make sure you have enough free space.',
+        note: "If Google Drive shows a warning saying it can't scan this file for viruses, that doesn't mean the file is a virus. Google simply can't scan it because of its size (2.2GB). Tap “Download anyway”."
+      },
+      '8ball': { description: 'The latest version of 8 Ball Pool in a dark cyberpunk style on Zarkov.exe Store, with a special mod that works smoothly. Download with one tap and enjoy.' },
+      minecraft: { description: 'The classic, world-famous Minecraft v3.0 for iPhone and iPad. Download it from Zarkov.exe Store and enjoy building your own world.' },
+      inshot: { description: 'InShot video editor v1.65.0 for iPhone and iPad. Trim your videos, add music and effects, and edit with ease.' },
+      capcut: { description: 'CapCut video editor v7.5.1 for iPhone and iPad. Create great-looking videos and add effects and transitions.' },
+      spotify: { description: 'Spotify v8.8.6 for iPhone and iPad. Listen to music and podcasts anytime.' }
+    };
+    const PROMO_EN = {
+      gta5: 'Free and offline. The install tutorial is on the app page.',
+      carparking: 'Car Parking: drive different cars and park them.',
+      spotify: 'Listen to music and podcasts anytime.',
+      capcut: 'CapCut and InShot for creating great videos.'
+    };
+    function t(k) { return (I18N[lang] && I18N[lang][k]) || I18N.ku[k] || k; }
+    function L(app, f) { return (lang === 'en' && EN[app.id] && EN[app.id][f]) || app[f]; }
+
+    function applyLang() {
+      const rtl = lang === 'ku';
+      document.documentElement.lang = rtl ? 'ku' : 'en';
+      document.documentElement.dir = rtl ? 'rtl' : 'ltr';
+      document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+      document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
+      document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+      document.getElementById('langBtn').textContent = rtl ? 'EN' : 'کوردی';
+      document.getElementById('requestBtn').href = TG_URL + '?text=' + encodeURIComponent(t('reqMsg'));
+      promoShown = false;
+      filterApps();
+      if (currentDetail) openDetail(currentDetail);
+    }
+    function toggleLang() {
+      lang = lang === 'ku' ? 'en' : 'ku';
+      try { localStorage.setItem('zx_lang', lang); } catch (e) {}
+      applyLang();
+    }
+    function initLang() {
+      try { if (localStorage.getItem('zx_lang') === 'en') lang = 'en'; } catch (e) {}
+      applyLang();
+    }
+
+    // ---------- Confetti on GET ----------
+    function confetti(x, y) {
+      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const colors = ['#00ffcc', '#38bdf8', '#ff4d7d', '#ffc371', '#a78bfa', '#1ed760'];
+      for (let i = 0; i < 22; i++) {
+        const d = document.createElement('i');
+        const size = 6 + Math.random() * 6;
+        d.style.cssText = `position:fixed;left:${x}px;top:${y}px;width:${size}px;height:${size * 0.6}px;background:${colors[i % colors.length]};border-radius:2px;pointer-events:none;z-index:400`;
+        document.body.appendChild(d);
+        const ang = Math.random() * Math.PI * 2, dist = 60 + Math.random() * 90;
+        const dx = Math.cos(ang) * dist, dy = Math.sin(ang) * dist - 40;
+        const anim = d.animate([
+          { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+          { transform: `translate(${dx}px,${dy + 60}px) rotate(${Math.random() * 540}deg)`, opacity: 0 }
+        ], { duration: 700 + Math.random() * 400, easing: 'cubic-bezier(.2,.8,.3,1)' });
+        anim.onfinish = () => d.remove();
+      }
+    }
+    document.addEventListener('click', e => {
+      const a = e.target.closest && e.target.closest('.btn-get-small, .btn-get-large, .promo-get');
+      if (a) confetti(e.clientX, e.clientY);
+    }, true);
+
     document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeDetail(); closeGuide(); } });
 
-    filterApps();
+    initLang();
     initTip();
     if (location.hash.length > 1) openDetail(decodeURIComponent(location.hash.slice(1)));
   </script>
