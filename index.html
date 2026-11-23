@@ -272,14 +272,6 @@
     @keyframes pulse { 0%, 100% { box-shadow: 0 0 30px rgba(0,255,204,.35); transform: scale(1); } 50% { box-shadow: 0 0 70px rgba(0,255,204,.6); transform: scale(1.06); } }
     @keyframes splashOut { to { opacity: 0; visibility: hidden; } }
 
-    /* Coming soon card */
-    .app-row-card.soon { background: transparent; border: 1.5px dashed #2a3a5c; cursor: default; box-shadow: none; }
-    .app-row-card.soon:hover { border-color: rgba(255,193,7,.4); box-shadow: none; }
-    .soon-icon { width: 66px; height: 66px; border-radius: 16px; display: grid; place-items: center; font: 800 24px "Vazirmatn", sans-serif; color: #fff; direction: ltr; background: linear-gradient(145deg, #2e7d32, #f59e0b); flex-shrink: 0; animation: shimmer 2.2s ease-in-out infinite; }
-    @keyframes shimmer { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
-    .badge-soon { background: rgba(255,193,7,.12); color: #ffc371; font-size: 10px; padding: 2px 7px; border-radius: 6px; font-weight: 800; border: 1px solid rgba(255,193,7,.3); }
-    .btn-soon { font-size: 20px; opacity: .8; padding: 0 10px; }
-
     /* Language button + LTR overrides */
     .top-actions { display: flex; align-items: center; gap: 8px; }
     .lang-btn { background: var(--surface); color: var(--text); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; font: 700 13px "Vazirmatn", sans-serif; cursor: pointer; transition: .2s; }
@@ -433,6 +425,28 @@
 
     const appsData = [
       {
+        id: "sanandreas",
+        name: "GTA San Andreas",
+        category: "game",
+        isNew: true,
+        subtitle: "Open World Action • Offline",
+        dev: "Zarkov.exe",
+        icon: "https://lh3.googleusercontent.com/d/1VBQ2OrOKNfc4o24StcWzRBZS2RQhqXY8",
+        size: "—",
+        version: "v1.0",
+        note: "ئەگەر Google Drive پەیامەکێ نیشان دا کو دبێژیت \"can't scan this file for viruses\"، ئەڤە ئاماژە نینە کو فایل ڤایرۆسە. تەنها ژ بەر مەزنیا فایلی Google ناشێت سکان بکەت. کلیک ل «Download anyway» بکە.",
+        platform: "iOS / iPad",
+        downloadUrl: "https://drive.usercontent.google.com/download?id=1L5JeAo4Aa_myiUBAtBK7pH_vxxdURe-O&export=download&confirm=t",
+        videoUrl: "https://drive.usercontent.google.com/download?id=15-8L-OHOw6IPBIsKFHQSQFJy_hlvrctP&export=download&confirm=t",
+        videoType: "video/mp4",
+        posterUrl: "https://lh3.googleusercontent.com/d/1VBQ2OrOKNfc4o24StcWzRBZS2RQhqXY8",
+        screens: [
+          "https://lh3.googleusercontent.com/d/1T1LS_fvVWiiCCA3-Dhmc9_IORCrG9mtx",
+          "https://lh3.googleusercontent.com/d/1ieCiUOFTyuNi_U-mD7KowQWjxG9jmT0C"
+        ],
+        description: "یاریا GTA San Andreas بۆ ئایفۆن و ئایپاد، ب خۆڕایی و بێ ئینتەرنێت. فایلێ IPA دابەزینە، ئیمزا بکە و دابمەزرێنە. ئەگەر نزانی چاوا، دوگمەیا ڕێنمایی ل لاپەڕەیێ سەرەکی بکاربینە."
+      },
+      {
         id: "carparking",
         name: "Car Parking",
         category: "game",
@@ -462,7 +476,7 @@
         size: "—",
         version: "v4.0",
         platform: "iOS / iPad",
-        downloadUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/v4.0/GTA.V.Port.ipa",
+        downloadUrl: "https://drive.usercontent.google.com/download?id=1nOy0ih8EE7vv_5wdnuxuWEeCUwTSMEqA&export=download&confirm=t",
         videoUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/ferkari/2139935373094427311.mp4",
         videoLabel: "فێرکاری دامەزراندن (Tutorial)",
         posterUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/record/IMG_5814.jpeg",
@@ -580,22 +594,6 @@
         `;
         grid.appendChild(card);
       });
-      const qNow = document.getElementById('searchInput').value.trim();
-      if (!qNow && (currentCategory === 'all' || currentCategory === 'game')) {
-        const soon = document.createElement('div');
-        soon.className = 'app-row-card soon';
-        soon.onclick = () => toast(t('soonToast'));
-        soon.innerHTML = `
-          <div class="row-left">
-            <div class="soon-icon">SA</div>
-            <div class="row-info">
-              <h3><span class="badge-soon">SOON</span><span>GTA San Andreas</span></h3>
-              <p>Coming Soon \u2022 Work in progress</p>
-            </div>
-          </div>
-          <span class="btn-soon">\u23F3</span>`;
-        grid.appendChild(soon);
-      }
     }
 
     function filterCategory(cat, btn) {
@@ -706,6 +704,7 @@
     }
 
     const promos = [
+      { id: 'sanandreas', kicker: 'NEW \u2022 iOS', title: 'GTA San Andreas', text: 'ب خۆڕایی و بێ ئینتەرنێت ل سەر ئایفۆن و ئایپاد.', c1: '#2e7d32', c2: '#f59e0b' },
       { id: 'gta5', kicker: 'NEW \u2022 iOS', title: 'GTA V on iPhone & iPad', text: 'ب خۆڕایی و بێ ئینتەرنێت. فێرکاریا دامەزراندنێ ل ناڤ لاپەڕەیێ هەیە.', c1: '#ff8a3d', c2: '#6d1fa8' },
       { id: 'carparking', kicker: 'NEW \u2022 GAME', title: 'Drive. Park. Repeat.', text: 'یاریا Car Parking: ئۆتۆمبێلێن جۆراوجۆر لێبخورە و پارک بکە.', c1: '#1d4ed8', c2: '#06b6d4' },
       { id: 'spotify', kicker: 'NEW \u2022 MUSIC', title: 'Your music, anywhere', text: 'گوهدارییا میوزیک و پۆدکاستان بکە ل هەر دەمەکێ.', c1: '#16a34a', c2: '#0b3d24' },
@@ -828,7 +827,7 @@
         tgChannel: 'کەناڵێ مە یێ تێلیگرامی: <bdi>@zarkov_exe3</bdi>',
         videoFallback: 'ئەگەر ڤیدیۆکە کار نەکرد، لێرە بیکەرەوە',
         copy: 'کۆپی', noApps: 'چ ئەپەک نەهاتە دیتن...', linkCopied: 'لینک کۆپی کرا ✓',
-        soonToast: 'GTA San Andreas بەمزووانە دێت 🔜', shareSuffix: ' ل ستۆرێ Zarkov.exe'
+        shareSuffix: ' ل ستۆرێ Zarkov.exe'
       },
       en: {
         brandSub: 'Exclusive games & apps for iOS / iPad',
@@ -851,10 +850,14 @@
         tgChannel: 'Our Telegram channel: <bdi>@zarkov_exe3</bdi>',
         videoFallback: "If the video doesn't play, open it here",
         copy: 'Copy', noApps: 'No apps found...', linkCopied: 'Link copied ✓',
-        soonToast: 'GTA San Andreas is coming soon 🔜', shareSuffix: ' on Zarkov.exe Store'
+        shareSuffix: ' on Zarkov.exe Store'
       }
     };
     const EN = {
+      sanandreas: {
+        description: 'GTA San Andreas for iPhone and iPad, free and works offline. Download the IPA file, sign it and install it. If you are not sure how, use the guide button on the home page.',
+        note: "If Google Drive shows a warning saying it can't scan this file for viruses, that doesn't mean the file is a virus. Google simply can't scan it because of its size. Tap “Download anyway”."
+      },
       gta5: { description: 'GTA 5 for iOS, free and works offline. Watch the tutorial to see how to install it.', videoLabel: 'Install Tutorial' },
       carparking: {
         description: 'Car Parking for iPhone and iPad. Drive different cars and park them. The game is 2.2GB, so make sure you have enough free space.',
@@ -867,6 +870,7 @@
       spotify: { description: 'Spotify v8.8.6 for iPhone and iPad. Listen to music and podcasts anytime.' }
     };
     const PROMO_EN = {
+      sanandreas: 'Free and offline on iPhone and iPad.',
       gta5: 'Free and offline. The install tutorial is on the app page.',
       carparking: 'Car Parking: drive different cars and park them.',
       spotify: 'Listen to music and podcasts anytime.',
