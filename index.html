@@ -286,6 +286,20 @@
     [dir="ltr"] .row-info p { text-align: left; }
     [dir="ltr"] .detail-title-box .dev { text-align: left; }
 
+    /* Join gate */
+    .gate { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center; padding: 24px; background: rgba(5,5,10,.94); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); overflow-y: auto; }
+    .gate[hidden] { display: none; }
+    .gate-card { width: 100%; max-width: 380px; text-align: center; background: linear-gradient(150deg, #10162a, #090d17); border: 1px solid rgba(0,255,204,.25); border-radius: 28px; padding: 30px 24px; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+    .gate-logo { width: 84px; height: 84px; border-radius: 24px; margin: 0 auto 18px; display: grid; place-items: center; background: linear-gradient(145deg, #00ffcc, #0aa5d8); color: #04141a; font: 800 46px/1 "Vazirmatn", sans-serif; direction: ltr; box-shadow: 0 10px 34px rgba(0,255,204,.35); }
+    .gate-card h2 { font-size: 20px; font-weight: 800; margin-bottom: 10px; }
+    .gate-card p { font-size: 13.5px; color: #b6c2d6; line-height: 1.95; margin-bottom: 22px; }
+    .gate-join { display: flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, #38bdf8, #0284c7); color: #031018; padding: 13px; border-radius: 16px; font-weight: 800; font-size: 14px; box-shadow: 0 6px 18px rgba(56,189,248,.3); transition: .2s; }
+    .gate-join svg { width: 18px; height: 18px; fill: currentColor; }
+    .gate-join:hover { transform: translateY(-1px); }
+    .gate-handle { display: block; direction: ltr; font-size: 12.5px; color: var(--accent-2); margin: 10px 0 18px; }
+    .gate-enter { width: 100%; background: linear-gradient(135deg, #00ffcc, #00bfff); color: #04141a; border: 0; padding: 13px; border-radius: 16px; font-weight: 800; font-size: 14px; cursor: pointer; transition: .2s; }
+    .gate-enter:disabled { background: var(--surface-2); color: #5a6882; cursor: not-allowed; }
+
     @media (max-width: 480px) {
       .request-card { flex-direction: column; align-items: stretch; text-align: right; }
       .btn-request { justify-content: center; }
@@ -307,6 +321,20 @@
     <p>Zarkov<span>.exe</span> Store</p>
   </div>
   <script>try{if(sessionStorage.getItem('zx_splash')){document.getElementById('splash').style.display='none'}else{sessionStorage.setItem('zx_splash','1')}}catch(e){}</script>
+
+  <div class="gate" id="gate" hidden>
+    <div class="gate-card">
+      <div class="gate-logo">Z</div>
+      <h2 data-i18n="gateTitle">سەرەتا کەناڵێ مە جوین بکە</h2>
+      <p data-i18n="gateText">بۆ چوونە ناڤ ستۆرێ، کەناڵێ مە یێ تێلیگرامێ جوین بکە. پاشی بزڤڕە ڤێرە و دوگمەیا خوارێ بکە.</p>
+      <a class="gate-join" id="gateJoin" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 3.4 2.9 10.6c-.9.4-.9 1.2-.2 1.4l4.8 1.5 1.8 5.6c.2.6.4.8.9.8s.6-.2.9-.5l2.4-2.3 4.9 3.6c.9.5 1.5.2 1.7-.8l3-14.3c.3-1.2-.4-1.8-1.5-1.3ZM8.7 13.2l9.9-6.2c.5-.3.9-.1.5.2l-8.2 7.4-.3 3.4-1.9-4.8Z"/></svg>
+        <span data-i18n="gateJoin">جوین کرنا کەناڵێ</span>
+      </a>
+      <bdi class="gate-handle">@zarkov_exe3</bdi>
+      <button class="gate-enter" id="gateEnter" disabled></button>
+    </div>
+  </div>
 
   <header class="top-bar">
     <div class="wrap">
@@ -814,6 +842,9 @@
         heroText: 'ل ڤێرە دشێی باشترین یاری و ئەپێن iOS و iPad ب ئاسانی بدۆزیتەوە. ئەپەکێ هەلبژێرە، GET بکە، و ئەگەر نزانی چاوا دامەزرێنی، دوگمەیا ڕێنمایی بکاربینە.',
         heroBtn: '📘 چۆن دابمەزرێنم؟',
         tipHtml: '📲 ستۆرێ وەک ئەپ بخە سەر شاشەیا ماڵێ: دوگمەیا <b>Share</b> بنێرە، پاشان <b>Add to Home Screen</b>.',
+        gateTitle: 'سەرەتا کەناڵێ مە جوین بکە',
+        gateText: 'بۆ چوونە ناڤ ستۆرێ، کەناڵێ مە یێ تێلیگرامێ جوین بکە. پاشی بزڤڕە ڤێرە و دوگمەیا خوارێ بکە.',
+        gateJoin: 'جوین کرنا کەناڵێ', gateEnter: 'جوینم کر، بچە ژوور', gateWait: 'جوین بکە دا چالاک ببیت',
         reqTitle: 'داخوازا یارییەکێ بکە 🚀',
         reqText: 'یاریا تە دلخواز ل ستۆرێ نینە؟ ڕاستەوخۆ بۆ مە بنێرە!',
         reqBtn: 'داخواز بکە',
@@ -837,6 +868,9 @@
         heroText: "Find the best iOS and iPad games and apps here, easily. Pick an app, tap GET, and if you're not sure how to install it, use the guide button.",
         heroBtn: '📘 How do I install?',
         tipHtml: '📲 Add the store to your Home Screen: tap <b>Share</b>, then <b>Add to Home Screen</b>.',
+        gateTitle: 'Join our channel first',
+        gateText: 'To enter the store, join our Telegram channel. Then come back here and tap the button below.',
+        gateJoin: 'Join the channel', gateEnter: "I joined, let me in", gateWait: 'Join to unlock',
         reqTitle: 'Request a game 🚀',
         reqText: "Can't find your favorite game in the store? Send it to us directly!",
         reqBtn: 'Request',
@@ -890,6 +924,7 @@
       document.getElementById('requestBtn').href = TG_URL + '?text=' + encodeURIComponent(t('reqMsg'));
       promoShown = false;
       filterApps();
+      if (typeof updateGateBtn === 'function') updateGateBtn();
       if (currentDetail) openDetail(currentDetail);
     }
     function toggleLang() {
@@ -927,7 +962,45 @@
 
     document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeDetail(); closeGuide(); } });
 
+
+    // ---------- Join gate (honor system, not verified) ----------
+    let gateTimer = null, gateLeft = 0, gateClicked = false;
+    function updateGateBtn() {
+      const b = document.getElementById('gateEnter');
+      if (!b) return;
+      if (!gateClicked) { b.disabled = true; b.textContent = t('gateWait'); }
+      else if (gateLeft > 0) { b.disabled = true; b.textContent = t('gateEnter') + ' (' + gateLeft + ')'; }
+      else { b.disabled = false; b.textContent = t('gateEnter'); }
+    }
+    function initGate() {
+      let ok = false;
+      try { ok = localStorage.getItem('zx_joined') === '1'; } catch (e) {}
+      if (ok) return;
+      const gate = document.getElementById('gate');
+      const join = document.getElementById('gateJoin');
+      const enter = document.getElementById('gateEnter');
+      join.href = TG_URL;
+      gate.hidden = false;
+      document.body.style.overflow = 'hidden';
+      updateGateBtn();
+      join.addEventListener('click', () => {
+        if (gateClicked) return;
+        gateClicked = true; gateLeft = 5; updateGateBtn();
+        gateTimer = setInterval(() => {
+          gateLeft--; updateGateBtn();
+          if (gateLeft <= 0) clearInterval(gateTimer);
+        }, 1000);
+      });
+      enter.addEventListener('click', () => {
+        if (enter.disabled) return;
+        try { localStorage.setItem('zx_joined', '1'); } catch (e) {}
+        gate.hidden = true;
+        document.body.style.overflow = '';
+      });
+    }
+
     initLang();
+    initGate();
     initTip();
     if (location.hash.length > 1) openDetail(decodeURIComponent(location.hash.slice(1)));
   </script>
