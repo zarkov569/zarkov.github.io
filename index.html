@@ -636,6 +636,54 @@
         description: "GTA 5 بۆ سیستەمی iOS، بە خۆڕایی و بێ ئینتەرنێت. سەیری فێرکارییەکە بکە بۆ دامەزراندن."
       },
       {
+        id: "pubg",
+        name: "PUBG Mobile",
+        category: "game",
+        isNew: true,
+        subtitle: "Battle Royale • Online",
+        dev: "Zarkov.exe",
+        icon: "https://github.com/zarkov569/zarkov.github.io/releases/download/untagged-541339c3eb6213023263/IMG_5873.jpeg",
+        size: "—",
+        version: "v4.7.0",
+        platform: "iOS / iPad",
+        downloadUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/newest/PUBGM.FLASH_4.7.0_1795032294.ipa",
+        videoUrl: "",
+        posterUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/untagged-541339c3eb6213023263/IMG_5873.jpeg",
+        description: "یاریا PUBG Mobile ڤێرشنا v4.7.0 بۆ ئایفۆن و ئایپاد. فایلێ IPA دابەزینە، ئیمزا بکە و دابمەزرێنە. ئەگەر نزانی چاوا، دوگمەیا ڕێنمایی ل ستۆرێ بکاربینە."
+      },
+      {
+        id: "icinema",
+        name: "iCinema",
+        category: "tweak",
+        isNew: true,
+        subtitle: "Movies & Series",
+        dev: "Zarkov.exe",
+        icon: "https://github.com/zarkov569/zarkov.github.io/releases/download/film/IMG_5874.jpeg",
+        size: "—",
+        version: "v2.1.11",
+        platform: "iOS / iPad",
+        downloadUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/films/iCinema-iOS-2.1.11.ipa",
+        videoUrl: "",
+        posterUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/film/IMG_5874.jpeg",
+        description: "ئەپا iCinema ڤێرشنا v2.1.11 بۆ ئایفۆن و ئایپاد، بۆ سەیرکرنا فیلم و زنجیرەیان."
+      },
+      {
+        id: "youtube",
+        name: "YouTube Plus",
+        category: "tweak",
+        isNew: true,
+        subtitle: "YouTube • YTPlus",
+        dev: "Zarkov.exe",
+        icon: "https://github.com/zarkov569/zarkov.github.io/releases/download/rosom/IMG_5875.jpeg",
+        size: "—",
+        version: "v20.21.6",
+        platform: "iOS / iPad",
+        downloadUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/plus%2B/YouTube_20.21.6_YTPlus.ipa",
+        videoUrl: "",
+        posterUrl: "https://github.com/zarkov569/zarkov.github.io/releases/download/rosom/IMG_5875.jpeg",
+        description: "ئەپا YouTube ڤێرشنا v20.21.6 ب YTPlus بۆ ئایفۆن و ئایپاد."
+      },
+      {
         id: "inshot",
         name: "InShot",
         category: "tweak",
@@ -880,6 +928,7 @@
 
     const promos = [
       { id: 'sanandreas', kicker: 'NEW \u2022 iOS', title: 'GTA San Andreas', text: 'ب خۆڕایی و بێ ئینتەرنێت ل سەر ئایفۆن و ئایپاد.', c1: '#2e7d32', c2: '#f59e0b' },
+      { id: 'pubg', kicker: 'NEW \u2022 iOS', title: 'PUBG Mobile', text: 'ڤێرشنا v4.7.0 بۆ ئایفۆن و ئایپاد.', c1: '#b45309', c2: '#1e293b' },
       { id: 'gta5', kicker: 'NEW \u2022 iOS', title: 'GTA V on iPhone & iPad', text: 'ب خۆڕایی و بێ ئینتەرنێت. فێرکاریا دامەزراندنێ ل ناڤ لاپەڕەیێ هەیە.', c1: '#ff8a3d', c2: '#6d1fa8' },
       { id: 'carparking', kicker: 'NEW \u2022 GAME', title: 'Drive. Park. Repeat.', text: 'یاریا Car Parking: ئۆتۆمبێلێن جۆراوجۆر لێبخورە و پارک بکە.', c1: '#1d4ed8', c2: '#06b6d4' },
       { id: 'spotify', kicker: 'NEW \u2022 MUSIC', title: 'Your music, anywhere', text: 'گوهدارییا میوزیک و پۆدکاستان بکە ل هەر دەمەکێ.', c1: '#16a34a', c2: '#0b3d24' },
@@ -1043,6 +1092,9 @@
         description: 'GTA San Andreas for iPhone and iPad, free and works offline. Download the IPA file, sign it and install it. If you are not sure how, use the guide button on the home page.',
         note: "If Google Drive shows a warning saying it can't scan this file for viruses, that doesn't mean the file is a virus. Google simply can't scan it because of its size. Tap “Download anyway”."
       },
+      pubg: { description: 'PUBG Mobile v4.7.0 for iPhone and iPad. Download the IPA file, sign it and install it. If you are not sure how, use the guide button in the store.' },
+      icinema: { description: 'iCinema v2.1.11 for iPhone and iPad, for watching movies and series.' },
+      youtube: { description: 'YouTube v20.21.6 with YTPlus for iPhone and iPad.' },
       gta5: { description: 'GTA 5 for iOS, free and works offline. Watch the tutorial to see how to install it.', videoLabel: 'Install Tutorial' },
       carparking: {
         description: 'Car Parking for iPhone and iPad. Drive different cars and park them. The game is 2.2GB, so make sure you have enough free space.',
@@ -1056,6 +1108,7 @@
     };
     const PROMO_EN = {
       sanandreas: 'Free and offline on iPhone and iPad.',
+      pubg: 'Version v4.7.0 for iPhone and iPad.',
       gta5: 'Free and offline. The install tutorial is on the app page.',
       carparking: 'Car Parking: drive different cars and park them.',
       spotify: 'Listen to music and podcasts anytime.',
